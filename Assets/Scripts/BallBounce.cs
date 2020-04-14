@@ -47,6 +47,8 @@ public class BallBounce : MonoBehaviour
 
     public bool isMoving = true;
 
+    Vector3 currVelocity;
+
     void Start()
     {
         sqrMaxVel = maxVelocity * maxVelocity;
@@ -66,48 +68,67 @@ public class BallBounce : MonoBehaviour
     {
         //_rb.AddForce(blindMovement_RandomDirection * movementSpeed);
 
-
-        if (isMoving)
+        if (!managerObj.transform.GetComponent<SimControls>().pauseSim && !managerObj.transform.GetComponent<SimControls>().endSim)
         {
-            if (_rb.velocity.sqrMagnitude > sqrMaxVel)
+
+            if (isMoving)
             {
-                _rb.velocity = _rb.velocity.normalized * maxVelocity;
-            }
-            else if (_rb.velocity.sqrMagnitude != 0 && _rb.velocity.sqrMagnitude < sqrMinVel)
-            {
-                _rb.velocity = _rb.velocity.normalized * minVelocity;
+
+                if (_rb.isKinematic == true)
+                {
+                    _rb.isKinematic = false;
+                    _rb.velocity = currVelocity;
+                }
+                 
+
+
+                if (_rb.velocity.sqrMagnitude > sqrMaxVel)
+                {
+                    _rb.velocity = _rb.velocity.normalized * maxVelocity;
+                }
+                else if (_rb.velocity.sqrMagnitude != 0 && _rb.velocity.sqrMagnitude < sqrMinVel)
+                {
+                    _rb.velocity = _rb.velocity.normalized * minVelocity;
+                }
+                else
+                {
+                    _rb.velocity = blindMovement_RandomDirection * movementSpeed;
+                }
             }
             else
             {
-                _rb.velocity = blindMovement_RandomDirection * movementSpeed;
+                _rb.isKinematic = true;
+                //_rb.velocity = Vector3.zero;
             }
+
+            currVelocity = _rb.velocity;
+
+
+
+            if (currState == 2)
+            {
+                currTimer += Time.fixedDeltaTime;
+
+                if (currTimer >= targetSickTime)
+                {
+
+                    currState = 3;
+                    currTimer = 0f;
+
+                    whichColor(3);
+
+                    managerObj.transform.GetComponent<InfectionCounter>().numHealed += 1f;
+                    managerObj.transform.GetComponent<InfectionCounter>().numInfected -= 1f;
+                }
+            }
+
+
         }
         else
         {
             _rb.isKinematic = true;
-            //_rb.velocity = Vector3.zero;
         }
-
-
-
-
-
-        if (currState == 2)
-        {
-            currTimer += Time.fixedDeltaTime;
-
-            if (currTimer>= targetSickTime)
-            {
-
-                currState = 3;
-                currTimer = 0f;
-
-                whichColor(3);
-
-                managerObj.transform.GetComponent<InfectionCounter>().numHealed += 1f;
-                managerObj.transform.GetComponent<InfectionCounter>().numInfected -= 1f;
-            }
-        }
+        
 
 
 

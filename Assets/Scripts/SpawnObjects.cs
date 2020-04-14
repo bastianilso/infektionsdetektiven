@@ -38,8 +38,8 @@ public class SpawnObjects : MonoBehaviour
             Vector3 spawnPos = centerPos + new Vector3(Random.Range(-sizeSpawn.x / 2, sizeSpawn.x / 2), 0, Random.Range(-sizeSpawn.z / 2, sizeSpawn.z / 2));
 
             GameObject currActor = Instantiate(actor, spawnPos, Quaternion.identity);
-
-            actorHolder.transform.parent = currActor.transform;
+            
+            currActor.transform.parent = actorHolder.transform;
 
             if (spawnInfected_counter < numberOfInfected)
             {
@@ -55,7 +55,7 @@ public class SpawnObjects : MonoBehaviour
 
                 transform.GetComponent<InfectionCounter>().numHealthy += 1f;
 
-                if (quarantine_counter <= quarantine_max)
+                if (quarantine_counter < quarantine_max)
                 {
                     currActor.transform.GetComponent<BallBounce>().isMoving = false;
                     quarantine_counter++;
@@ -67,11 +67,7 @@ public class SpawnObjects : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 
 
 
