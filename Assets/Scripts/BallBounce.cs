@@ -77,6 +77,11 @@ public class BallBounce : MonoBehaviour
                 if (_rb.isKinematic == true)
                 {
                     _rb.isKinematic = false;
+
+                    if (_rb.velocity == Vector3.zero)
+                    {
+                        _rb.velocity= new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f)) * movementSpeed;
+                    }
                     _rb.velocity = currVelocity;
                 }
                  
@@ -128,9 +133,9 @@ public class BallBounce : MonoBehaviour
         {
             _rb.isKinematic = true;
         }
-        
 
 
+        //Collider[] hitColliders = Physics.OverlapSphere(transform.position, transform.localScale.x);
 
 
         //Debug.Log(_rb.velocity.magnitude);
@@ -151,11 +156,15 @@ public class BallBounce : MonoBehaviour
 
                 if (collisionState == 2 && currState == 1)
                 {
-                    currState = 2;
-                    whichColor(2);
+                    if (Random.value <= managerObj.transform.GetComponent<SimControls>().R_0_percent)
+                    {
+                        currState = 2;
+                        whichColor(2);
 
-                    managerObj.transform.GetComponent<InfectionCounter>().numHealthy -= 1f;
-                    managerObj.transform.GetComponent<InfectionCounter>().numInfected += 1f;
+                        managerObj.transform.GetComponent<InfectionCounter>().numHealthy -= 1f;
+                        managerObj.transform.GetComponent<InfectionCounter>().numInfected += 1f;
+                    }
+
                 }
             }
         }

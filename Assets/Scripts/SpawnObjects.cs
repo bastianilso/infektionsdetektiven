@@ -17,10 +17,18 @@ public class SpawnObjects : MonoBehaviour
 
     public int numberOfInfected = 1;
 
-    public float percentShutdown = 0.5f;
+    public List<GameObject> allActors;
 
-    void Start()
+    public Vector3 initialSize;
+
+    //public float percentShutdown = 0.5f;
+
+    void Awake()
     {
+
+        initialSize = actor.transform.localScale;
+
+        allActors = new List<GameObject>();
 
         Vector3 centerPos = colliderSpace.transform.position;
         Vector3 sizeSpawn = colliderSpace.transform.localScale;
@@ -30,7 +38,7 @@ public class SpawnObjects : MonoBehaviour
 
         int spawnInfected_counter = 0;
 
-        int quarantine_max = (int)(numberOfActors * percentShutdown);
+        int quarantine_max = (int)(numberOfActors * transform.GetComponent<SimControls>().percentShutdown);
         int quarantine_counter = 0;
 
         for (int i = 0; i < numberOfActors; i++)
@@ -38,7 +46,12 @@ public class SpawnObjects : MonoBehaviour
             Vector3 spawnPos = centerPos + new Vector3(Random.Range(-sizeSpawn.x / 2, sizeSpawn.x / 2), 0, Random.Range(-sizeSpawn.z / 2, sizeSpawn.z / 2));
 
             GameObject currActor = Instantiate(actor, spawnPos, Quaternion.identity);
-            
+
+            currActor.transform.localScale += Vector3.one* transform.GetComponent<SimControls>().spreadRadius;
+
+            allActors.Add(currActor);
+
+
             currActor.transform.parent = actorHolder.transform;
 
             if (spawnInfected_counter < numberOfInfected)
@@ -47,6 +60,8 @@ public class SpawnObjects : MonoBehaviour
                 currActor.transform.GetComponent<Renderer>().material = possibleStatesMat[1];
                 spawnInfected_counter++;
                 transform.GetComponent<InfectionCounter>().numInfected += 1f;
+
+                //currActor.transform.GetComponent<BallBounce>().isMoving = true;
             }
             else
             {

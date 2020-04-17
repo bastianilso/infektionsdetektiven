@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6448281351988628762}
   - component: {fileID: 6448281351988628758}
   - component: {fileID: 6448281351988628759}
+  - component: {fileID: 5388453714740401490}
   m_Layer: 0
   m_Name: actor
   m_TagString: actor
@@ -126,9 +127,22 @@ MonoBehaviour:
   movementSpeed: 4
   maxVelocity: 2
   minVelocity: 1
-  targetTime: 10
+  targetSickTime: 10
   currState: -1
   possibleStatesMat:
   - {fileID: 2100000, guid: 536c4957564c1554bad6d523bbb13a40, type: 2}
   - {fileID: 2100000, guid: ebd1b12da75fe634aa635821fa589011, type: 2}
   - {fileID: 2100000, guid: fad28977e79fef0419b9e94f94ab41c5, type: 2}
+  isMoving: 1
+--- !u!114 &5388453714740401490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6448281351988628761}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ebfb7c3a411644ba26a7051803be8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
