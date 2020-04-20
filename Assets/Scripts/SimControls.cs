@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SimControls : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class SimControls : MonoBehaviour
 
     float oldShutdown;
 
-
+    GameObject restartButt;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,8 @@ public class SimControls : MonoBehaviour
 
         GameObject sliderR_0 = GameObject.Find("R_0");
         sliderR_0.GetComponent<Slider>().value = R_0_percent;
+
+        restartButt = GameObject.Find("RestartButton");
     }
 
     // Update is called once per frame
@@ -88,6 +91,13 @@ public class SimControls : MonoBehaviour
 
 
         //oldShutdown = percentShutdown;
+    }
+
+    public void restartGame()
+    {
+        Debug.Log(SceneManager.GetActiveScene().path);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().path);
+
     }
 
 
