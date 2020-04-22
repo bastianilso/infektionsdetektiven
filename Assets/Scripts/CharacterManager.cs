@@ -14,10 +14,17 @@ public class CharacterManager : MonoBehaviour
 
     public void Walk() {
         animator.SetBool("Moving", true);
+        animator.SetBool("SickMoving", false);
     }
 
     public void Idle() {
         animator.SetBool("Moving", false);
+        animator.SetBool("SickMoving", false);
+    }
+
+    public void SickWalk() {
+        animator.SetBool("Moving", false);
+        animator.SetBool("SickMoving", true);
     }
 
     // Update is called once per frame
