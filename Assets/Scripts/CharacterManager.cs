@@ -7,7 +7,7 @@ public class CharacterManager : MonoBehaviour
     Animator animator;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         animator = GetComponent<Animator>();
     }
