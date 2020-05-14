@@ -95,6 +95,7 @@ public class Cursor : MonoBehaviour
     {
         //if (Input.GetKeyDown("space")) {
         if (magnifyAllowed) {
+
             EvaluateChargingState();
 
             RaycastHit hit;
