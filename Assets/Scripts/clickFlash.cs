@@ -31,6 +31,7 @@ public class clickFlash : MonoBehaviour
         if (flashState == ClickFlashState.None) {
             if (Input.GetMouseButtonDown(0) ) {
                 this.GetComponent<Image>().sprite = clickSprite; 
+                this.GetComponent<Animator>().Play("looking-glass-click");
                 flashState = ClickFlashState.Flashing;
             }
         } else if (flashState == ClickFlashState.Flashing) {

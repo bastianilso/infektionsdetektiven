@@ -24,6 +24,14 @@ public class GameStats {
     public float gameWonScore;
 }
 
+public class GameSettings {
+    public int levelNo;
+    public int gameOverScore;
+    public float gameWonScore;
+    public int daysToWin;
+    public int numberOfSubjects;
+}
+
 
 public class GameManager : MonoBehaviour
 {
@@ -33,7 +41,7 @@ public class GameManager : MonoBehaviour
     public OnGameStateChanged onGameStateChanged;
 
     [Serializable]
-    public class OnGamePreparation : UnityEvent {}
+    public class OnGamePreparation : UnityEvent <GameSettings> {}
     public OnGamePreparation onGamePreparation;
 
     [Serializable]
@@ -50,6 +58,8 @@ public class GameManager : MonoBehaviour
     private int subjectsTestedScore = 0;
     private int populationScore = -1;
     private int subjectsIsolationScore = 0;
+    public int levelNo = 1;
+    public int daysToWin = 30;
     
     public int gameOverScore = 20;
     public float gameWonScore = 30f;
@@ -77,8 +87,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (gameState == GameState.Preparation) {
-            onGameStateChanged.Invoke(gameTime, gameState);
-            onGamePreparation.Invoke();
         } else if (gameState == GameState.Playing) {
             gameTime += Time.deltaTime;
             newInfectionTimer += Time.deltaTime;
@@ -130,6 +138,16 @@ public class GameManager : MonoBehaviour
             return gameStats;
     }
 
+    private GameSettings GetGameSettings() {
+            GameSettings gameSettings = new GameSettings();
+            gameSettings.levelNo = levelNo;
+            gameSettings.daysToWin = daysToWin;
+            gameSettings.gameOverScore = gameOverScore;
+            gameSettings.gameWonScore = gameWonScore;
+            gameSettings.numberOfSubjects = numberOfSubjects;
+            return gameSettings;
+    }
+
     void ResetGame() {
         gameTime = 0.0f;
     }
@@ -138,6 +156,7 @@ public class GameManager : MonoBehaviour
         populationManager.StartPopulation(numberOfSubjects);
         gameState = GameState.Preparation;
         onGameStateChanged.Invoke(gameTime, gameState);
+        onGamePreparation.Invoke(GetGameSettings());
     }
 
     public void StartGame() {
