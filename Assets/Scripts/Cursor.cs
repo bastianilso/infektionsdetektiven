@@ -80,7 +80,7 @@ public class Cursor : MonoBehaviour
     }
 
     public void OnGameStateChanged(float gameTime, GameState gameState) {
-        if (gameState == GameState.Playing) {
+        if (gameState == GameState.Playing || gameState == GameState.CountDown) {
             magnifyAllowed = true;
             UnityEngine.Cursor.visible = false;
             this.GetComponent<Image>().enabled = true;

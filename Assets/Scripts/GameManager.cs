@@ -7,6 +7,7 @@ using System;
 public enum GameState {
     Stopped,
     Preparation,
+    CountDown,
     Playing,
     GameWon,
     GameLost,
@@ -45,6 +46,10 @@ public class GameManager : MonoBehaviour
     public OnGamePreparation onGamePreparation;
 
     [Serializable]
+    public class OnGameCountDown : UnityEvent <int> {}
+    public OnGameCountDown onGameCountDown;
+
+    [Serializable]
     public class OnGameOver : UnityEvent <GameStats, GameState> {}
     public OnGameOver onGameOver;
 
@@ -74,8 +79,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private DangerImage dangerImage;
     
-    private float countDownTime =3f;
+    private float countDownTime = 4f;
     private float countDownTimer = 0f;
+    private int prevTime;
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +93,18 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         if (gameState == GameState.Preparation) {
+        } else if (gameState == GameState.CountDown) {
+            countDownTimer -= Time.deltaTime;
+
+            if (countDownTimer < 1) {
+                gameState = GameState.Playing;
+                populationManager.StartInfection();
+                onGameCountDown.Invoke((int) countDownTimer);
+                onGameStateChanged.Invoke(gameTime, gameState);
+            } else if ((int) countDownTimer != prevTime) {
+                onGameCountDown.Invoke((int) countDownTimer);
+                prevTime = (int) countDownTimer;
+            }
         } else if (gameState == GameState.Playing) {
             gameTime += Time.deltaTime;
             newInfectionTimer += Time.deltaTime;
@@ -157,11 +175,12 @@ public class GameManager : MonoBehaviour
         gameState = GameState.Preparation;
         onGameStateChanged.Invoke(gameTime, gameState);
         onGamePreparation.Invoke(GetGameSettings());
+        countDownTimer = countDownTime;
+        prevTime = (int) countDownTime;
     }
 
     public void StartGame() {
-        populationManager.StartInfection();
-        gameState = GameState.Playing;
+        gameState = GameState.CountDown;
         onGameStateChanged.Invoke(gameTime, gameState);
     }
 
