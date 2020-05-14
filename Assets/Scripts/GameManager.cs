@@ -13,6 +13,17 @@ public enum GameState {
     Paused
 }
 
+public class GameStats {
+    public float gameTime;
+    public int numberOfSubjects;
+    public int subjectsInfectedScore;
+    public int subjectsTestedScore;
+    public int populationScore;
+    public int subjectsIsolationScore;
+    public int gameOverScore;
+    public float gameWonScore;
+}
+
 
 public class GameManager : MonoBehaviour
 {
@@ -26,12 +37,8 @@ public class GameManager : MonoBehaviour
     public OnGamePreparation onGamePreparation;
 
     [Serializable]
-    public class OnGameWon : UnityEvent {}
-    public OnGameWon onGameWon;
-
-    [Serializable]
-    public class OnGameLost : UnityEvent {}
-    public OnGameLost onGameLost;
+    public class OnGameOver : UnityEvent <GameStats, GameState> {}
+    public OnGameOver onGameOver;
 
     // in-game variables - will be reset to their default values when game stops.
     private float gameTime = 0.0f;
@@ -100,14 +107,27 @@ public class GameManager : MonoBehaviour
             
         } else if (gameState == GameState.GameLost) {
             onGameStateChanged.Invoke(gameTime, gameState);
-            onGameLost.Invoke();
+            onGameOver.Invoke(GetGameStats(), gameState);
         } else if (gameState == GameState.GameWon) {
             onGameStateChanged.Invoke(gameTime, gameState);
-            onGameWon.Invoke();
+            onGameOver.Invoke(GetGameStats(), gameState);
         } else if (gameState == GameState.Stopped) {
             onGameStateChanged.Invoke(gameTime, gameState);
             ResetGame();
         }
+    }
+
+    private GameStats GetGameStats() {
+            GameStats gameStats = new GameStats();
+            gameStats.gameTime = gameTime;
+            gameStats.numberOfSubjects = numberOfSubjects;
+            gameStats.subjectsInfectedScore = subjectsInfectedScore;
+            gameStats.subjectsTestedScore = subjectsTestedScore;
+            gameStats.populationScore = populationScore;
+            gameStats.subjectsIsolationScore = subjectsIsolationScore;
+            gameStats.gameOverScore = gameOverScore;
+            gameStats.gameWonScore = gameWonScore;
+            return gameStats;
     }
 
     void ResetGame() {
