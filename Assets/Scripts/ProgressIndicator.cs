@@ -15,7 +15,7 @@ public class ProgressIndicator : MonoBehaviour
     private float progressBarSize;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {   
         progressBarSize = progressBar.sizeDelta.x;
     }
@@ -31,10 +31,9 @@ public class ProgressIndicator : MonoBehaviour
 
     }
 
-    void SetProgressBarValue(float pgValue) {
+    public void SetProgressBarValue(float pgValue) {
         // do the math on how to set the size of the bar here.
         float newPosition = pgValue * progressBarSize;
-        Debug.Log(newPosition);
         progressBar.sizeDelta = new Vector2(newPosition, progressBar.sizeDelta.y);
     }
 }

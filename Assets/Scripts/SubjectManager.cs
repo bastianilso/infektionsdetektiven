@@ -86,6 +86,13 @@ public class SubjectManager : MonoBehaviour
     private SpreadContains spreadContains;
 
     [SerializeField]
+    private LODGroup lodGroup;
+    [SerializeField]
+    private GameObject subjectInfectedZoom;
+    [SerializeField]
+    private GameObject subjectInfectedBall;
+
+    [SerializeField]
     private Collider roamingBounds;
     private Vector3 roamingDirection;
     private SubjectRoaming subjectRoaming = SubjectRoaming.Walking; 
@@ -231,8 +238,15 @@ public class SubjectManager : MonoBehaviour
 
     public void IsolateInfectedSubject() {
         if (subjectStatus == SubjectStatus.Infected) {
+            infected.SetActive(true);
+            neutralSymptoms.SetActive(false);
             curPos = this.transform.position;
             destPos = isolationZone.SpawnPoint;
+            lodGroup.enabled = false;
+            subjectInfectedBall.SetActive(false);
+            subjectInfectedZoom.SetActive(true);
+            subjectInfectedZoom.transform.localScale = new Vector3(4f, 4f, 4f);
+            subjectInfectedZoom.transform.eulerAngles = new Vector3(-60f, UnityEngine.Random.Range(0f,230f), 0f);
             this.transform.localScale = new Vector3(2f, 2f, 2f);
             subjectVisibility = SubjectVisibility.GoingToIsolation;
             onSubjectIsolated.Invoke(id, subjectStatus);
@@ -240,7 +254,9 @@ public class SubjectManager : MonoBehaviour
     }
 
     public void InfectLocally() {
-        spreadContains.SpreadInfection(spreadRatio);
+        if (subjectVisibility != SubjectVisibility.GoingToIsolation) {
+            spreadContains.SpreadInfection(spreadRatio);
+        }
     }
 
 }

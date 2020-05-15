@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
     public class OnGameOver : UnityEvent <GameStats, GameState> {}
     public OnGameOver onGameOver;
 
+    [Serializable]
+    public class OnPopulationChange : UnityEvent <GameStats> {}
+    public OnPopulationChange onPopulationChange;
+
+
     // in-game variables - will be reset to their default values when game stops.
     private float gameTime = 0.0f;
     public float newInfectionSeconds = 10;
@@ -74,12 +79,9 @@ public class GameManager : MonoBehaviour
     private PopulationManager populationManager;
 
     [SerializeField]
-    private InfectionStats infectStats;
-
-    [SerializeField]
     private DangerImage dangerImage;
     
-    private float countDownTime = 4f;
+    private float countDownTime = 5f;
     private float countDownTimer = 0f;
     private int prevTime;
 
@@ -119,12 +121,12 @@ public class GameManager : MonoBehaviour
             }
 
             if (populationScore > 0) {
-                Debug.Log("Gametime: " + gameTime.ToString());
+                //Debug.Log("Gametime: " + gameTime.ToString());
                 if (populationScore < gameOverScore) {
                         gameState = GameState.GameLost;
                 }
                 bool didWin = gameTime > gameWonScore;
-                Debug.Log("gameTime: " + gameTime + " gameWonScore: " + gameWonScore + "won: " + didWin );
+                //Debug.Log("gameTime: " + gameTime + " gameWonScore: " + gameWonScore + "won: " + didWin );
                 if (gameTime > gameWonScore) {
                         Debug.Log("Game Won!");
                         gameState = GameState.GameWon;
@@ -208,20 +210,21 @@ public class GameManager : MonoBehaviour
 
     public void IncreasePopulationCount(SubjectManager subjectManager) {
         populationScore++;
-        infectStats.UpdatePopulationScore(populationScore);
+        onPopulationChange.Invoke(GetGameStats());
     }
 
     public void DecreasePopulationCount(int id, SubjectStatus subjectStatus) {
         if (subjectStatus == SubjectStatus.Infected) {
             populationScore--;
             dangerImage.TriggerDangerImage();
-            infectStats.UpdatePopulationScore(populationScore);
+            onPopulationChange.Invoke(GetGameStats());
         }
     }
 
     public void IncreaseSubjectInfectedCount(int id, SubjectStatus subjectStatus) {
         if (subjectStatus == SubjectStatus.Infected) {
             subjectsInfectedScore++;
+            onPopulationChange.Invoke(GetGameStats());
         }
     }
 
@@ -231,6 +234,6 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseSubjectsInIsolationCount(int id, SubjectStatus subjectStatus) {
         subjectsIsolationScore++;
-        infectStats.UpdateIsolationScore(subjectsIsolationScore);
+        onPopulationChange.Invoke(GetGameStats());
     }
 }

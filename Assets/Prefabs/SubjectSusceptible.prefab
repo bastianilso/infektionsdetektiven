@@ -1632,7 +1632,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8390161019959441157}
   - component: {fileID: 1938189681432091263}
-  - component: {fileID: 7768992153742893153}
   - component: {fileID: 7768992153742893152}
   m_Layer: 0
   m_Name: SubjectSusceptibleZoom
@@ -1676,24 +1675,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!143 &7768992153742893153
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4770595299948496150}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7768992153742893152
 MonoBehaviour:
   m_ObjectHideFlags: 0
