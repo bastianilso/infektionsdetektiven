@@ -12,7 +12,7 @@ public class ProgressIndicator : MonoBehaviour
     [SerializeField]
     private RectTransform progressBar;
 
-    private float progressBarSize;
+    private float progressBarSize = -1f;
 
     // Start is called before the first frame update
     void Awake()
@@ -32,6 +32,16 @@ public class ProgressIndicator : MonoBehaviour
     }
 
     public void SetProgressBarValue(float pgValue) {
+        if (progressBarSize == -1f) {
+            // make sure we have a progress bar size
+            return;
+        }
+        if (pgValue >= 1f) {
+            pgValue = 0.99f;
+        }
+        if (pgValue <= 0f) {
+            pgValue = 0.01f;
+        }
         // do the math on how to set the size of the bar here.
         float newPosition = pgValue * progressBarSize;
         progressBar.sizeDelta = new Vector2(newPosition, progressBar.sizeDelta.y);

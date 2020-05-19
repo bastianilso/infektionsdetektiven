@@ -8,7 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/BallSpace.unity
     guid: e340230714a24f04780e1ede35c046a9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MagnifyingGlassApp.unity
     guid: 2db01a188f2d3744db3c41e8fd65abcc
+  - enabled: 1
+    path: Assets/Scenes/MagnifyGlassMainMenu.unity
+    guid: d202699fdffb57a41b3ba6ef508a6fc7
+  - enabled: 1
+    path: Assets/Scenes/MagnifyGlassLevel.unity
+    guid: afefeb81f81e8364983786da900cb76c
   m_configObjects: {}

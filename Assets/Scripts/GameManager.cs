@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
+using UnityEngine.SceneManagement;
 
 public enum GameState {
     Stopped,
@@ -24,15 +25,6 @@ public class GameStats {
     public int gameOverScore;
     public float gameWonScore;
 }
-
-public class GameSettings {
-    public int levelNo;
-    public int gameOverScore;
-    public float gameWonScore;
-    public int daysToWin;
-    public int numberOfSubjects;
-}
-
 
 public class GameManager : MonoBehaviour
 {
@@ -60,19 +52,13 @@ public class GameManager : MonoBehaviour
 
     // in-game variables - will be reset to their default values when game stops.
     private float gameTime = 0.0f;
-    public float newInfectionSeconds = 10;
     private float newInfectionTimer = 0f;
 
-    public int numberOfSubjects = 150;
+
     private int subjectsInfectedScore = 0;
     private int subjectsTestedScore = 0;
     private int populationScore = -1;
     private int subjectsIsolationScore = 0;
-    public int levelNo = 1;
-    public int daysToWin = 30;
-    
-    public int gameOverScore = 20;
-    public float gameWonScore = 30f;
 
     private GameState gameState = GameState.Stopped;
 
@@ -85,10 +71,17 @@ public class GameManager : MonoBehaviour
     private float countDownTimer = 0f;
     private int prevTime;
 
+    private LevelManager levelManager;
+    private GameSettings currentLevel;
+
     // Start is called before the first frame update
     void Start()
     {
         populationManager = this.GetComponent<PopulationManager>();
+        levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        currentLevel = levelManager.GetCurrentLevelSettings();
+        populationManager.SetNumberOfInfectedOnStart(currentLevel.numberOfInfectedOnStart);
+        PrepareGame();
     }
 
     // Update is called once per frame
@@ -110,7 +103,7 @@ public class GameManager : MonoBehaviour
         } else if (gameState == GameState.Playing) {
             gameTime += Time.deltaTime;
             newInfectionTimer += Time.deltaTime;
-            if (newInfectionTimer > newInfectionSeconds) {
+            if (newInfectionTimer > currentLevel.newInfectionSeconds) {
                 populationManager.AddNewInfected();
                 newInfectionTimer = 0f;
             }
@@ -122,12 +115,12 @@ public class GameManager : MonoBehaviour
 
             if (populationScore > 0) {
                 //Debug.Log("Gametime: " + gameTime.ToString());
-                if (populationScore < gameOverScore) {
+                if (populationScore < currentLevel.gameOverScore) {
                         gameState = GameState.GameLost;
                 }
-                bool didWin = gameTime > gameWonScore;
+                bool didWin = gameTime > currentLevel.gameWonScore;
                 //Debug.Log("gameTime: " + gameTime + " gameWonScore: " + gameWonScore + "won: " + didWin );
-                if (gameTime > gameWonScore) {
+                if (gameTime > currentLevel.gameWonScore) {
                         Debug.Log("Game Won!");
                         gameState = GameState.GameWon;
                 }
@@ -148,24 +141,18 @@ public class GameManager : MonoBehaviour
     private GameStats GetGameStats() {
             GameStats gameStats = new GameStats();
             gameStats.gameTime = gameTime;
-            gameStats.numberOfSubjects = numberOfSubjects;
+            gameStats.numberOfSubjects = currentLevel.numberOfSubjects;
             gameStats.subjectsInfectedScore = subjectsInfectedScore;
             gameStats.subjectsTestedScore = subjectsTestedScore;
             gameStats.populationScore = populationScore;
             gameStats.subjectsIsolationScore = subjectsIsolationScore;
-            gameStats.gameOverScore = gameOverScore;
-            gameStats.gameWonScore = gameWonScore;
+            gameStats.gameOverScore = currentLevel.gameOverScore;
+            gameStats.gameWonScore = currentLevel.gameWonScore;
             return gameStats;
     }
 
     private GameSettings GetGameSettings() {
-            GameSettings gameSettings = new GameSettings();
-            gameSettings.levelNo = levelNo;
-            gameSettings.daysToWin = daysToWin;
-            gameSettings.gameOverScore = gameOverScore;
-            gameSettings.gameWonScore = gameWonScore;
-            gameSettings.numberOfSubjects = numberOfSubjects;
-            return gameSettings;
+            return currentLevel;
     }
 
     void ResetGame() {
@@ -173,7 +160,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void PrepareGame() {
-        populationManager.StartPopulation(numberOfSubjects);
+        populationManager.StartPopulation(currentLevel.numberOfSubjects);
         gameState = GameState.Preparation;
         onGameStateChanged.Invoke(gameTime, gameState);
         onGamePreparation.Invoke(GetGameSettings());
@@ -189,24 +176,34 @@ public class GameManager : MonoBehaviour
     public void AbortGame() {
         gameState = GameState.Stopped;
         onGameStateChanged.Invoke(gameTime, gameState);
-        Application.Quit();
+        SceneManager.LoadScene("MagnifyGlassMainMenu");
+        //Application.Quit();
+    }
+
+    public void NextLevel() {
+        levelManager.IncrementLevel();
+        levelManager.LoadNextLevel();
+    }
+
+    public void ReloadLevel() {
+        levelManager.LoadNextLevel();
     }
 
     public void GameOver() {
 
     }
 
-    public void SetOneInfected() {
-        populationManager.SetNumberOfInfectedOnStart(1);
-    }
+    //public void SetOneInfected() {
+    //    populationManager.SetNumberOfInfectedOnStart(1);
+    //}
 
-    public void SetThreeInfected() {
-        populationManager.SetNumberOfInfectedOnStart(3);
-    }
+    //public void SetThreeInfected() {
+    //    populationManager.SetNumberOfInfectedOnStart(3);
+    //}
 
-    public void SetFiveInfected() {
-        populationManager.SetNumberOfInfectedOnStart(5);
-    }
+    //public void SetFiveInfected() {
+    //    populationManager.SetNumberOfInfectedOnStart(5);
+    //}
 
     public void IncreasePopulationCount(SubjectManager subjectManager) {
         populationScore++;
@@ -217,14 +214,18 @@ public class GameManager : MonoBehaviour
         if (subjectStatus == SubjectStatus.Infected) {
             populationScore--;
             dangerImage.TriggerDangerImage();
-            onPopulationChange.Invoke(GetGameStats());
+            if (gameState == GameState.Playing) {
+                onPopulationChange.Invoke(GetGameStats());
+            }
         }
     }
 
     public void IncreaseSubjectInfectedCount(int id, SubjectStatus subjectStatus) {
         if (subjectStatus == SubjectStatus.Infected) {
             subjectsInfectedScore++;
-            onPopulationChange.Invoke(GetGameStats());
+            if (gameState == GameState.Playing) {
+                onPopulationChange.Invoke(GetGameStats());
+            }
         }
     }
 
@@ -234,6 +235,8 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseSubjectsInIsolationCount(int id, SubjectStatus subjectStatus) {
         subjectsIsolationScore++;
-        onPopulationChange.Invoke(GetGameStats());
+        if (gameState == GameState.Playing) {
+            onPopulationChange.Invoke(GetGameStats());
+        }
     }
 }

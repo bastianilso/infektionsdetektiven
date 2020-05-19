@@ -25,7 +25,7 @@ public class PopulationManager : MonoBehaviour
     private int numberOfInfectedOnStart = 1;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         allSubjects = new Dictionary<int, SubjectManager>();
         infectedSubjects = new Dictionary<int, SubjectManager>();

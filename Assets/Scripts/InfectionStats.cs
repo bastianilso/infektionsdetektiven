@@ -59,6 +59,10 @@ public class InfectionStats : MonoBehaviour
         vaccineIndicator.SetActive(false);
     }
 
+    void Start() {
+        infProgBar.SetProgressBarValue(0f);
+    }
+
     public void onGamePrep(GameSettings gameSettings) {
         gameTargetTime = gameSettings.gameWonScore;
         gameOverScore = gameSettings.gameOverScore;
@@ -72,6 +76,7 @@ public class InfectionStats : MonoBehaviour
         } else if (gameState == GameState.Playing) {
             vaccineIndicator.SetActive(true);
             infectionIndicator.SetActive(true);
+            infProgBar.SetProgressBarValue(0f);
             gameTime = time;
         }
     }
@@ -88,8 +93,14 @@ public class InfectionStats : MonoBehaviour
     //}
 
     public void OnPopulationChange(GameStats gameStats) {
-        float currentScore = 1f - ( ((float) gameStats.populationScore - gameOverScore) / (float) numberOfSubjects);
-        infProgBar.SetProgressBarValue(currentScore);
+        if (gameState == GameState.Playing) {
+            Debug.Log("populationScore: " + gameStats.populationScore);
+            Debug.Log("gameOverScore: " + gameOverScore);
+            Debug.Log("numberOfSubjects: " + numberOfSubjects);
+            float currentScore = 1f - ( ((float) gameStats.populationScore - gameOverScore) / (float) numberOfSubjects);
+            Debug.Log("currentInfectionScore: " + currentScore);
+            infProgBar.SetProgressBarValue(currentScore);
+        }
     }
 
     //public void UpdatePopulationScore(int score) {
