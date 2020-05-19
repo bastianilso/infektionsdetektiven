@@ -63,7 +63,9 @@ public class SubjectManager : MonoBehaviour
     [SerializeField]
     private SpawnZone isolationZone;
     public float isolationSpeed = 0.05f;
-    public float isolationT = 0f;
+    private float isolationT = 0f;
+    public float upwardsAmount = 5f;
+    private float upwardsT = 0f; 
     private Vector3 curPos;
     private Vector3 destPos;
 
@@ -134,7 +136,13 @@ public class SubjectManager : MonoBehaviour
             }
         } else if (subjectVisibility == SubjectVisibility.GoingToIsolation) {
             isolationT += isolationSpeed;
-            this.transform.position = Vector3.Slerp(curPos, destPos, isolationT);
+            Vector3 slerpPos = Vector3.Slerp(curPos, destPos, isolationT);
+            if (isolationT < 0.5f) {
+                upwardsT += isolationSpeed*2;
+            } else {
+                upwardsT -= isolationSpeed*2;
+            }
+            this.transform.position = new Vector3(slerpPos.x, Mathf.Lerp(slerpPos.y, slerpPos.y+upwardsAmount, upwardsT), slerpPos.z);
         }
     }
 

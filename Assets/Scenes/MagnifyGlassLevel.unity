@@ -3495,8 +3495,8 @@ MonoBehaviour:
   healthy: {fileID: 581213692}
   neutral: {fileID: 1269484852}
   isolationZone: {fileID: 535559907}
-  isolationSpeed: 0.05
-  isolationT: 0
+  isolationSpeed: 0.02
+  upwardsAmount: 12
   spawnZone: {fileID: 1277606280}
   neutralSymptoms: {fileID: 353258962}
   neutralSymptomsMaterial: {fileID: 2100000, guid: 543930889ae8450479741223d7eea5de,
