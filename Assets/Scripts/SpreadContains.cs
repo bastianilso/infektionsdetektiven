@@ -66,7 +66,8 @@ public class SpreadContains : MonoBehaviour
             obj.transform.position = Vector3.Slerp(this.transform.position, targetPos, t);
             yield return new WaitForSeconds(0.005f);
         }
-        obj.SetActive(false);
+        yield return new WaitForSeconds(0.100f);
+        Destroy(obj);
         yield return null;
     }
 
