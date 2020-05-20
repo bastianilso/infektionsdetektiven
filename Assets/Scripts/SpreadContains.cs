@@ -24,7 +24,7 @@ public class SpreadContains : MonoBehaviour
     }
 
     public void SpreadInfection(int spreadRatio) {
-        Debug.Log("attempting to spread infection");
+        //Debug.Log("attempting to spread infection");
         //this.transform.position = pos;
 
         //Use the OverlapBox to detect if there are any other colliders within this box area.
@@ -32,7 +32,7 @@ public class SpreadContains : MonoBehaviour
         int spread = 0;
         Collider[] hitColliders = Physics.OverlapBox(gameObject.transform.position, transform.localScale / 2, Quaternion.identity, m_LayerMask);
         foreach (var coll in hitColliders) {
-            Debug.Log("infecting subject " + coll.gameObject.GetComponent<SubjectManager>().id);
+            //Debug.Log("infecting subject " + coll.gameObject.GetComponent<SubjectManager>().id);
             //Debug.Log("Hit : " + coll.name);
             if (spread < spreadRatio) {
                 coll.gameObject.GetComponent<SubjectManager>().SetSubjectStatus(SubjectStatus.Infected);
