@@ -109,6 +109,9 @@ public class SubjectManager : MonoBehaviour
     private float timer = 0.1f;
     // Start is called before the first frame update
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     void Start()
     {
         //SetSubjectStatus(SubjectStatus.Infected);
@@ -120,7 +123,7 @@ public class SubjectManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (subjectVisibility == SubjectVisibility.Hidden) {
             Roam();
@@ -192,6 +195,7 @@ public class SubjectManager : MonoBehaviour
     public void SetSubjectStatus(SubjectStatus status) {
         if (subjectStatus == status) {
             // this subject is already infected, return.
+            return;
         } else {
             subjectStatus = status;
             onSubjectStatusChanged.Invoke(id, subjectStatus);
@@ -264,6 +268,7 @@ public class SubjectManager : MonoBehaviour
     public void InfectLocally() {
         if (subjectVisibility != SubjectVisibility.GoingToIsolation) {
             spreadContains.SpreadInfection(spreadRatio);
+            audioSource.Play();
         }
     }
 
