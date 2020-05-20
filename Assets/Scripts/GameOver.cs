@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class GameOver : MonoBehaviour
 {
@@ -9,6 +10,27 @@ public class GameOver : MonoBehaviour
     //[SerializeField]
     //private Text numberOfSubjects;
     //private string numberOfSubjectsTextTemplate;
+
+    [SerializeField]
+    private Color infectionColor;
+    [SerializeField]
+    private Color isolationColor;
+    [SerializeField]
+    private Color vaccineColor;
+
+    [SerializeField]
+    private Image infectionStar;
+    [SerializeField]
+    private Image isolationStar;
+    [SerializeField]
+    private Image vaccineStar;
+    [SerializeField]
+    private Image NoinfectionStar;
+    [SerializeField]
+    private Image NoisolationStar;
+    [SerializeField]
+    private Image NovaccineStar;
+
 
     [SerializeField]
     private Text numberOfSubjectsInfected;
@@ -21,6 +43,7 @@ public class GameOver : MonoBehaviour
     [SerializeField]
     private Text numberOfSubjectsInIsolation;
     private string numberOfSubjectsInIsolationTemplate;
+
 
     [SerializeField]
     private GameObject GameWonPanel;
@@ -54,19 +77,57 @@ public class GameOver : MonoBehaviour
             GameWonPanel.SetActive(true);
             NextLevelButton.SetActive(true);
             RetryButton.SetActive(false); 
-            GameLostPanel.SetActive(false);   
+            GameLostPanel.SetActive(false);
+            int subjectsVacScore = gameStats.numberOfSubjects - gameStats.subjectsInfectedScore;
+            numberOfSubjectsVac.text = string.Format(numberOfSubjectsVacTemplate, subjectsVacScore.ToString());
+            StartCoroutine(EvaluateHighScore(gameStats));
         } else if (gameState == GameState.GameLost) {
             GameLostPanel.SetActive(true);
             NextLevelButton.SetActive(false);
             RetryButton.SetActive(true); 
             GameWonPanel.SetActive(false);
+            numberOfSubjectsVac.text = string.Format(numberOfSubjectsVacTemplate, "Ingen");
+            NoinfectionStar.gameObject.SetActive(false);
+            NoisolationStar.gameObject.SetActive(false);
+            NovaccineStar.gameObject.SetActive(false);
+
         }
 
         //numberOfSubjects.text = string.Format(numberOfSubjectsTextTemplate, gameStats.numberOfSubjects.ToString());
         numberOfSubjectsInfected.text = string.Format(numberOfSubjectsInfectedTemplate, gameStats.subjectsInfectedScore.ToString());
         numberOfSubjectsInIsolation.text = string.Format(numberOfSubjectsInIsolationTemplate, gameStats.subjectsIsolationScore.ToString());
+    }
+
+    private IEnumerator EvaluateHighScore(GameStats gameStats) {
+        yield return new WaitForSeconds(1f);
+        // If less than 30% received the infection, award.
+        float popGotInf = ((float) gameStats.numberOfSubjects) * 0.3f;
+        if (popGotInf >= gameStats.subjectsInfectedScore) {
+            infectionStar.gameObject.SetActive(true);
+            infectionStar.color = infectionColor;
+            NoinfectionStar.color = new Color(1f,1f,1f,1f);
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        // if all infected except 3 (or fewer) were isolated, award.
+        int popGotIso = gameStats.subjectsInfectedScore - 5;
+        if (popGotIso <= gameStats.subjectsIsolationScore) {
+            isolationStar.gameObject.SetActive(true);
+            isolationStar.color = isolationColor;
+            NoisolationStar.color = new Color(1f,1f,1f,1f);
+        }
+        yield return new WaitForSeconds(0.5f);
+
+        // If more than 80% received the vaccine, award.
+        float popNeedVac = ((float) gameStats.numberOfSubjects) * 0.8f;
         int subjectsVacScore = gameStats.numberOfSubjects - gameStats.subjectsInfectedScore;
-        numberOfSubjectsVac.text = string.Format(numberOfSubjectsVacTemplate, subjectsVacScore.ToString());
+        if (popNeedVac <= subjectsVacScore) {
+            vaccineStar.gameObject.SetActive(true);
+            vaccineStar.color = vaccineColor;
+            NovaccineStar.color = new Color(1f,1f,1f,1f);
+        }
+
+        yield return null;
 
     }
 }
