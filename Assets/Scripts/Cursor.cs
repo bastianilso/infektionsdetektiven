@@ -56,6 +56,12 @@ public class Cursor : MonoBehaviour
 
     private bool magnifyAllowed = false;
 
+    private Image cursorImage;
+
+    void Awake() {
+        cursorImage = this.GetComponent<Image>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +81,7 @@ public class Cursor : MonoBehaviour
             ChargeInfo chargeInfo = new ChargeInfo();
             chargeInfo.chargeState = chargingState;
             chargeInfo.currentCharge = currentCharge;
-            onChargeEvent.Invoke(chargeInfo);
+            //onChargeEvent.Invoke(chargeInfo);
         }
     }
 
@@ -105,12 +111,16 @@ public class Cursor : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
                 GameObject objectHit = hit.transform.gameObject;
                 if (objectHit.tag == "dontMagnify") {
-                    UnityEngine.Cursor.visible = true;
-                    this.GetComponent<Image>().enabled = false;
+                    if (cursorImage.enabled) {
+                        cursorImage.enabled = false;
+                        UnityEngine.Cursor.visible = true;
+                    }
                 } else {
-                    UnityEngine.Cursor.visible = false;
+                    if (!cursorImage.enabled) {
+                        UnityEngine.Cursor.visible = false;
+                        cursorImage.enabled = true;
+                    }
                     this.transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-                    this.GetComponent<Image>().enabled = true;
                     Magnify(hit.point);
                 }
             }
