@@ -50,20 +50,23 @@ public class CurrentFind : MonoBehaviour
             if (timer < 0f) {
                 currentFindObject.SetActive(false);
                 currentFindState = CurrentFindState.Invisible;
+                timer = hideTime;                
             }
         } else if (currentFindState == CurrentFindState.Invisible) {
-            timer = hideTime;
         }
     }
 
     public void OnRevealInfo(RevealInfo revealInfo) {
-        currentFindObject.SetActive(true);
-        if (revealInfo.subjectStatus == SubjectStatus.Infected) {
-            ShowInfectedAvatar();
-        } else if (revealInfo.subjectStatus == SubjectStatus.Healthy) {
-            ShowSusceptibleAvatar();
+        if (currentFindState != CurrentFindState.ShowingFind) {
+            currentFindObject.SetActive(true);
+            if (revealInfo.subjectStatus == SubjectStatus.Infected) {
+                ShowInfectedAvatar();
+            } else if (revealInfo.subjectStatus == SubjectStatus.Healthy) {
+                ShowSusceptibleAvatar();
+            }
+            currentFindState = CurrentFindState.ShowingFind;
         }
-        currentFindState = CurrentFindState.ShowingFind;
+        timer = hideTime;
     }
 
     void ShowSusceptibleAvatar() {
