@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 5
+  m_CurrentQuality: 1
   m_QualitySettings:
   - serializedVersion: 2
     name: Very Low
@@ -27,7 +27,7 @@ QualitySettings:
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
     vSyncCount: 0
-    lodBias: 0.3
+    lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -65,7 +65,7 @@ QualitySettings:
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
     vSyncCount: 0
-    lodBias: 0.4
+    lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -79,9 +79,7 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms:
-    - WebGL
-    - Standalone
+    excludedTargetPlatforms: []
   - serializedVersion: 2
     name: Medium
     pixelLightCount: 1
@@ -103,7 +101,7 @@ QualitySettings:
     realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
     vSyncCount: 1
-    lodBias: 0.7
+    lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -117,7 +115,9 @@ QualitySettings:
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 0}
-    excludedTargetPlatforms: []
+    excludedTargetPlatforms:
+    - WebGL
+    - Standalone
   - serializedVersion: 2
     name: High
     pixelLightCount: 2
@@ -139,7 +139,7 @@ QualitySettings:
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
     vSyncCount: 1
-    lodBias: 1
+    lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -155,6 +155,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms:
     - WebGL
+    - Standalone
   - serializedVersion: 2
     name: Very High
     pixelLightCount: 3
@@ -176,7 +177,7 @@ QualitySettings:
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
     vSyncCount: 1
-    lodBias: 1.5
+    lodBias: 2
     maximumLODLevel: 0
     streamingMipmapsActive: 0
     streamingMipmapsAddAllCameras: 1
@@ -192,6 +193,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms:
     - WebGL
+    - Standalone
   - serializedVersion: 2
     name: Ultra
     pixelLightCount: 4
@@ -229,6 +231,7 @@ QualitySettings:
     customRenderPipeline: {fileID: 0}
     excludedTargetPlatforms:
     - WebGL
+    - Standalone
   m_PerPlatformDefaultQuality:
     Android: 2
     Lumin: 5

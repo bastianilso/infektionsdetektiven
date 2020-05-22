@@ -8,6 +8,12 @@ public enum CurrentFindState {
     Invisible
 }
 
+public enum CurrentFindType {
+    Infected,
+    Healthy,
+    None
+}
+
 public class CurrentFind : MonoBehaviour
 {
 
@@ -30,6 +36,7 @@ public class CurrentFind : MonoBehaviour
     private Text currentFindText;
 
     private CurrentFindState currentFindState = CurrentFindState.Invisible;
+    private SubjectStatus currentFindType = SubjectStatus.Null;
 
     public float hideTime = 2f;
     private float timer = 0f;
@@ -50,23 +57,27 @@ public class CurrentFind : MonoBehaviour
             if (timer < 0f) {
                 currentFindObject.SetActive(false);
                 currentFindState = CurrentFindState.Invisible;
-                timer = hideTime;                
+                currentFindType = SubjectStatus.Null;  
             }
         } else if (currentFindState == CurrentFindState.Invisible) {
+            timer = hideTime;
         }
     }
 
     public void OnRevealInfo(RevealInfo revealInfo) {
-        if (currentFindState != CurrentFindState.ShowingFind) {
+        if (currentFindType != revealInfo.subjectStatus) {
             currentFindObject.SetActive(true);
             if (revealInfo.subjectStatus == SubjectStatus.Infected) {
                 ShowInfectedAvatar();
+                currentFindType = SubjectStatus.Infected;
+                timer = hideTime;
             } else if (revealInfo.subjectStatus == SubjectStatus.Healthy) {
                 ShowSusceptibleAvatar();
+                currentFindType = SubjectStatus.Healthy;
+                timer = hideTime;
             }
             currentFindState = CurrentFindState.ShowingFind;
         }
-        timer = hideTime;
     }
 
     void ShowSusceptibleAvatar() {

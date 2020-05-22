@@ -101,7 +101,7 @@ public class GameOver : MonoBehaviour
     private IEnumerator EvaluateHighScore(GameStats gameStats) {
         yield return new WaitForSeconds(1f);
         // If less than 30% received the infection, award.
-        float popGotInf = ((float) gameStats.numberOfSubjects) * 0.3f;
+        float popGotInf = ((float) gameStats.numberOfSubjects) * 0.35f;
         if (popGotInf >= gameStats.subjectsInfectedScore) {
             infectionStar.gameObject.SetActive(true);
             infectionStar.color = infectionColor;
@@ -119,7 +119,7 @@ public class GameOver : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         // If more than 80% received the vaccine, award.
-        float popNeedVac = ((float) gameStats.numberOfSubjects) * 0.8f;
+        float popNeedVac = ((float) gameStats.numberOfSubjects) * 0.75f;
         int subjectsVacScore = gameStats.numberOfSubjects - gameStats.subjectsInfectedScore;
         if (popNeedVac <= subjectsVacScore) {
             vaccineStar.gameObject.SetActive(true);

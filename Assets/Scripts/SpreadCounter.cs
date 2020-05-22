@@ -19,7 +19,7 @@ public class SpreadCounter : MonoBehaviour
     [SerializeField]
     private AudioSource audioSource;
 
-    private float infectionVisibilitySpeed = 0.02f;
+    private float infectionVisibilitySpeed = 2f;
     private bool fadeout = false;
     private float infectionVisT = 0f;
     private int subjectsInfectedScore = 0;
@@ -42,7 +42,7 @@ public class SpreadCounter : MonoBehaviour
     void Update()
     {
         if (infectionVisT > 0 && fadeout) {
-            infectionVisT -= infectionVisibilitySpeed;
+            infectionVisT -= infectionVisibilitySpeed * Time.deltaTime;
             infectionCounter.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), textColor, infectionVisT);
             infectionCounterImg.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), new Vector4(1f, 1f, 1f, 1f), infectionVisT);
             infectionIcon.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), new Vector4(1f, 1f, 1f, 1f), infectionVisT);

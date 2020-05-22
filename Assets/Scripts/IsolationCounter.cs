@@ -15,7 +15,7 @@ public class IsolationCounter : MonoBehaviour
     private Text isolationText;
     private string isoCounterTemplate;
 
-    private float isolationVisibilitySpeed = 0.02f;
+    private float isolationVisibilitySpeed = 2f;
     private bool fadeout = false;
     private float isolationVisT = 0f;
     private int subjectsIsolationScore = 0;
@@ -34,7 +34,7 @@ public class IsolationCounter : MonoBehaviour
     void Update()
     {
         if (isolationVisT > 0 && fadeout) {
-            isolationVisT -= isolationVisibilitySpeed;
+            isolationVisT -= isolationVisibilitySpeed * Time.deltaTime;
             isolationCounter.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), textColor, isolationVisT);
             isolationCounterImg.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), new Vector4(1f, 1f, 1f, 1f), isolationVisT);
             isolationText.color = Vector4.Lerp(new Vector4(1f, 1f, 1f, 0f), textColor, isolationVisT);

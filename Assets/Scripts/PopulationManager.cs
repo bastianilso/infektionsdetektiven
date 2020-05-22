@@ -38,7 +38,8 @@ public class PopulationManager : MonoBehaviour
     private IEnumerator SpawnSubjects(int num) {
         for (int i = 0; i < num; i++) {          
             var obj = Instantiate(subjectTemplate);
-            obj.transform.localPosition = spawnZone.SpawnPoint;
+            Vector3 newSpawnPoint = spawnZone.SpawnPoint;
+            obj.transform.localPosition = new Vector3(newSpawnPoint.x, 0f, newSpawnPoint.z);
             obj.SetActive(true);
 
             allSubjects[i] = obj.GetComponent<SubjectManager>();

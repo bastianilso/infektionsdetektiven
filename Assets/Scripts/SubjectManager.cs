@@ -7,7 +7,7 @@ using System;
 public enum SubjectStatus {
     Infected,
     Healthy,
-    Immune
+    Null
 }
 
 public enum SubjectVisibility {
@@ -123,7 +123,7 @@ public class SubjectManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (subjectVisibility == SubjectVisibility.Hidden) {
             Roam();
@@ -138,12 +138,12 @@ public class SubjectManager : MonoBehaviour
                 timer = hideTime;
             }
         } else if (subjectVisibility == SubjectVisibility.GoingToIsolation) {
-            isolationT += isolationSpeed;
+            isolationT += isolationSpeed * Time.deltaTime;
             Vector3 slerpPos = Vector3.Slerp(curPos, destPos, isolationT);
             if (isolationT < 0.5f) {
-                upwardsT += isolationSpeed*2;
+                upwardsT += isolationSpeed*2 * Time.deltaTime;
             } else {
-                upwardsT -= isolationSpeed*2;
+                upwardsT -= isolationSpeed*2 * Time.deltaTime;
             }
             this.transform.position = new Vector3(slerpPos.x, Mathf.Lerp(slerpPos.y, slerpPos.y+upwardsAmount, upwardsT), slerpPos.z);
         }
@@ -153,13 +153,13 @@ public class SubjectManager : MonoBehaviour
         if (subjectRoaming == SubjectRoaming.Walking) {
             roamingTimer -= Time.deltaTime;
 
-            Vector3 newPos = Vector3.MoveTowards(this.transform.position, roamingDirection, roamSpeed);
+            Vector3 newPos = Vector3.MoveTowards(this.transform.position, roamingDirection, roamSpeed * Time.deltaTime);
             if(!roamingBounds.bounds.Contains(newPos)){
                 // if next point outside boundary, do a 180
                 roamingDirection = -roamingDirection;
-                newPos = Vector3.MoveTowards(this.transform.position, roamingDirection, roamSpeed);
+                newPos = Vector3.MoveTowards(this.transform.position, roamingDirection, roamSpeed * Time.deltaTime);
             }
-            this.transform.position = newPos;
+            this.transform.position = new Vector3(newPos.x, this.transform.position.y, newPos.z);
 
             if (roamingTimer < 0f) {
                 subjectRoaming = SubjectRoaming.Standstill;
