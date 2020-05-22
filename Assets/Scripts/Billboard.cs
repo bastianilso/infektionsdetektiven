@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class billboard : MonoBehaviour
+public class Billboard : MonoBehaviour
 {
     public Camera m_Camera;
  
