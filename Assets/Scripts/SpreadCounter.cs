@@ -22,12 +22,6 @@ public class SpreadCounter : MonoBehaviour
     private float infectionVisibilitySpeed = 2f;
     private bool fadeout = false;
     private float infectionVisT = 0f;
-    private int subjectsInfectedScore = 0;
-    private int subjectsIsolationScore = 0;
-
-    [SerializeField]
-    private int[] scoreList;
-    private int index = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -52,19 +46,23 @@ public class SpreadCounter : MonoBehaviour
         }
     }
 
-    public void onPopulationUpdate(GameStats gameStats) {
-        if (subjectsInfectedScore < gameStats.subjectsInfectedScore) {
-            subjectsInfectedScore = gameStats.subjectsInfectedScore;
-            subjectsIsolationScore = gameStats.subjectsIsolationScore;
-            int subjectsLeft = subjectsInfectedScore - subjectsIsolationScore;
-            if ( subjectsLeft > scoreList[index]) {
-                infectionVisT = 2.5f;
-                fadeout = true;
-                infectionCounter.text = subjectsLeft.ToString();
-                animator.Play("spreadcount-scaler");
-                audioSource.Play();
-                index++;
-            }
-        }
+    //public void onPopulationUpdate(GameStats gameStats) {
+    //    if (subjectsInfectedScore < gameStats.subjectsInfectedScore) {
+    //        subjectsInfectedScore = gameStats.subjectsInfectedScore;
+    //        subjectsIsolationScore = gameStats.subjectsIsolationScore;
+    //        int subjectsLeft = subjectsInfectedScore - subjectsIsolationScore;
+    //        if ( subjectsLeft > scoreList[index]) {
+    //
+    //            index++;
+    //        }
+    //    }
+    //}
+
+    public void onTooMuchSpread(int scoreThreshold, int subjectsLeftInfected) {
+        infectionVisT = 2.5f;
+        fadeout = true;
+        infectionCounter.text = subjectsLeftInfected.ToString();
+        animator.Play("spreadcount-scaler");
+        audioSource.Play();
     }
 }

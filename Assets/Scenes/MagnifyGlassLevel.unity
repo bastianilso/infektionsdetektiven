@@ -1483,7 +1483,7 @@ RectTransform:
   m_GameObject: {fileID: 244739236}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.000016693375}
-  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
+  m_LocalScale: {x: 0.7918896, y: 0.7918896, z: 0.7918896}
   m_Children:
   - {fileID: 1129221997}
   m_Father: {fileID: 689967371}
@@ -1526,7 +1526,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c94dd0e8ca1f2d94b97266491d6c40a5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c2ce39d3a30111743b6a3f973a966359, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -3754,7 +3754,7 @@ MonoBehaviour:
     type: 2}
   symptomColor: {r: 0.9372549, g: 0.34901962, b: 0.23137255, a: 1}
   defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  flashSpeed: 0.05
+  flashSpeed: 5
   spreadContains: {fileID: 1475932141}
   lodGroup: {fileID: 1545044559}
   subjectInfectedZoom: {fileID: 2024485786}
@@ -4948,6 +4948,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onTooMuchSpread:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 942046449}
+        m_MethodName: onTooMuchSpread
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 393231575}
+        m_MethodName: onTooMuchSpread
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  scoreList: 050000000a000000190000003200000064000000c8000000
   dangerImage: {fileID: 962002398}
 --- !u!4 &490764109
 Transform:
@@ -7199,7 +7225,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747876081}
   m_LocalRotation: {x: 0.5347315, y: 0.093807444, z: 0.121104226, w: 0.8310212}
-  m_LocalPosition: {x: -6.16, y: 18.14, z: -8.74}
+  m_LocalPosition: {x: -5.93, y: 18.14, z: -8.52}
   m_LocalScale: {x: 0.18533583, y: 0.16611202, z: 0.14372133}
   m_Children: []
   m_Father: {fileID: 2109728899}
@@ -7230,7 +7256,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 500
-  field of view: 3
+  field of view: 3.7
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -8362,7 +8388,6 @@ MonoBehaviour:
   infectionIcon: {fileID: 1016019217}
   animator: {fileID: 942046451}
   audioSource: {fileID: 942046452}
-  scoreList: 050000000a0000001900000032000000640000002c010000
 --- !u!222 &942046450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9957,7 +9982,7 @@ RectTransform:
   m_GameObject: {fileID: 1129221996}
   m_LocalRotation: {x: -0, y: -0, z: 0.3636577, w: 0.9315327}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.7096558, y: 1.7096558, z: 1.7096558}
   m_Children: []
   m_Father: {fileID: 244739237}
   m_RootOrder: 0
@@ -9965,7 +9990,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 32.482788, y: -35.736595}
-  m_SizeDelta: {x: 40.81, y: 47.64}
+  m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1129221998
 MonoBehaviour:
@@ -15203,6 +15228,7 @@ MonoBehaviour:
     m_Bits: 256
   spreadSpeed: 0.02
   spreadTemplate: {fileID: 297814012}
+  visualizeSpread: 0
 --- !u!65 &1475932142
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15806,7 +15832,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 49.99997, y: -49.999985}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 125, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1526996203
 MonoBehaviour:
@@ -19124,7 +19150,7 @@ Transform:
   m_GameObject: {fileID: 2109728895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.88, y: 0, z: -7.95}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_Children:
   - {fileID: 747876082}
   - {fileID: 1047082417}

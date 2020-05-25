@@ -80,8 +80,7 @@ public class SubjectManager : MonoBehaviour
     private Color symptomColor;
     [SerializeField]
     private Color defaultColor;
-    public float flashSpeed = 0.05f;
-    private float flashTimer = -10f;
+    public float flashSpeed = 2f;
     private FlashState flashState = FlashState.FlashUp;
 
     [SerializeField]
@@ -107,6 +106,7 @@ public class SubjectManager : MonoBehaviour
 
     public float hideTime = 2f;
     private float timer = 0.1f;
+    private bool isFlashing = false;
     // Start is called before the first frame update
 
     [SerializeField]
@@ -127,9 +127,6 @@ public class SubjectManager : MonoBehaviour
     {
         if (subjectVisibility == SubjectVisibility.Hidden) {
             Roam();
-            if (subjectStatus == SubjectStatus.Infected) {
-                Flash();
-            }
         }
         else if (subjectVisibility == SubjectVisibility.Visible) {
             timer -= Time.deltaTime;
@@ -147,6 +144,10 @@ public class SubjectManager : MonoBehaviour
             }
             this.transform.position = new Vector3(slerpPos.x, Mathf.Lerp(slerpPos.y, slerpPos.y+upwardsAmount, upwardsT), slerpPos.z);
         }
+    }
+
+    public void onTooMuchSpread(int scoreThreshold, int subjectsLeftInfected) {
+        StartCoroutine(Flash());
     }
 
     private void Roam() {
@@ -176,19 +177,24 @@ public class SubjectManager : MonoBehaviour
         }
     }
 
-    private void Flash() {
-        if (flashState == FlashState.FlashUp && flashTimer < 1f) {
-            flashTimer += flashSpeed;
-            neutralSymptomsMaterial.color = Vector4.Lerp(defaultColor, symptomColor, flashTimer);
+    private IEnumerator Flash() {
+        if (isFlashing) {
+            yield return null;
         } else {
-            flashState = FlashState.FlashDown;
-        }
-
-        if (flashState == FlashState.FlashDown && flashTimer > -15f) {
-            flashTimer -= flashSpeed;
-            neutralSymptomsMaterial.color = Vector4.Lerp(defaultColor, symptomColor, flashTimer);
-        } else {
-            flashState = FlashState.FlashUp;
+            isFlashing = true;
+            float flashTimer = 0f;
+            while (flashTimer < 1f) {
+                flashTimer += flashSpeed * Time.deltaTime;
+                neutralSymptomsMaterial.color = Vector4.Lerp(defaultColor, symptomColor, flashTimer);
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+            while (flashTimer > 0f) {
+                flashTimer -= flashSpeed * Time.deltaTime;
+                neutralSymptomsMaterial.color = Vector4.Lerp(defaultColor, symptomColor, flashTimer);
+                yield return new WaitForSeconds(Time.deltaTime);
+            }
+            isFlashing = false;
+            yield return null;
         }
     }
 

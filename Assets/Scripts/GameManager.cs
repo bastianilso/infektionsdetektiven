@@ -49,6 +49,14 @@ public class GameManager : MonoBehaviour
     public class OnPopulationChange : UnityEvent <GameStats> {}
     public OnPopulationChange onPopulationChange;
 
+    [Serializable]
+    public class OnTooMuchSpread : UnityEvent <int, int> {}
+    public OnTooMuchSpread onTooMuchSpread;
+
+
+    [SerializeField]
+    private int[] scoreList;
+    private int scoreIndex = 0;
 
     // in-game variables - will be reset to their default values when game stops.
     private float gameTime = 0.0f;
@@ -155,6 +163,14 @@ public class GameManager : MonoBehaviour
             return currentLevel;
     }
 
+    private void EvaluateTooMuchSpread() {
+        int subjectsLeftInfected = subjectsInfectedScore - subjectsIsolationScore;
+        if (subjectsLeftInfected > scoreList[scoreIndex]) {
+            scoreIndex++;
+            onTooMuchSpread.Invoke(scoreList[scoreIndex], subjectsLeftInfected);
+        }
+    }
+
     void ResetGame() {
         gameTime = 0.0f;
     }
@@ -225,6 +241,7 @@ public class GameManager : MonoBehaviour
             subjectsInfectedScore++;
             if (gameState == GameState.Playing) {
                 onPopulationChange.Invoke(GetGameStats());
+                EvaluateTooMuchSpread();
             }
         }
     }
