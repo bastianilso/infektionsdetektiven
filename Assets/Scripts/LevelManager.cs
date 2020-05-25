@@ -87,6 +87,15 @@ public class LevelManager : MonoBehaviour
             newInfectionSeconds = 5f,
             numberOfInfectedOnStart = 3
         };
+        levelDict[7] = new GameSettings() {
+            levelNo = 7,
+            gameOverScore = 40,
+            gameWonScore = 84f,
+            daysToWin = 60,
+            numberOfSubjects = 200,
+            newInfectionSeconds = 3f,
+            numberOfInfectedOnStart = 5
+        };
     }
 
     public void SetLevel(int lvl) {
