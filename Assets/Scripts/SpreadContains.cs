@@ -13,6 +13,8 @@ public class SpreadContains : MonoBehaviour
     [SerializeField]
     private GameObject spreadTemplate;
 
+    public bool visualizeSpread = true;
+
     void Start()
     {
 
@@ -37,10 +39,12 @@ public class SpreadContains : MonoBehaviour
             if (spread < spreadRatio) {
                 coll.gameObject.GetComponent<SubjectManager>().SetSubjectStatus(SubjectStatus.Infected);
 
-                var obj = Instantiate(spreadTemplate);
-                obj.transform.localPosition = this.transform.position;
-                obj.SetActive(true);
-                StartCoroutine(VisualizeSpread(obj, coll.gameObject.transform.position));
+                if (visualizeSpread) {
+                    var obj = Instantiate(spreadTemplate);
+                    obj.transform.localPosition = this.transform.position;
+                    obj.SetActive(true);
+                    StartCoroutine(VisualizeSpread(obj, coll.gameObject.transform.position));
+                }
             } else {
                 break;
             }
