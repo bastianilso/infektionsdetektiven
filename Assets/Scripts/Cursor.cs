@@ -112,7 +112,8 @@ public class Cursor : MonoBehaviour
                 GameObject objectHit = hit.transform.gameObject;
                 if (objectHit.tag == "dontMagnify") {
                     if (cursorImage.enabled) {
-                        cursorImage.enabled = false;
+                        //cursorImage.enabled = false;
+                        this.transform.position = new Vector2(-10000f, -10000f);
                         UnityEngine.Cursor.visible = true;
                     }
                 } else {
