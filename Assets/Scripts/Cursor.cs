@@ -54,7 +54,8 @@ public class Cursor : MonoBehaviour
 
     private Vector2 defaultPosition;
 
-    private bool magnifyAllowed = false;
+    public bool magnifyAllowed = false;
+    public bool useMouse = true;
 
     private Image cursorImage;
 
@@ -105,7 +106,12 @@ public class Cursor : MonoBehaviour
             EvaluateChargingState();
 
             RaycastHit hit;
-            Ray ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray;
+            if (useMouse) {
+                 ray = sceneCamera.ScreenPointToRay(Input.mousePosition);
+            } else {
+                 ray = sceneCamera.ScreenPointToRay(this.transform.position);
+            }
             var layerMask = 1 << 0;
             
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
@@ -121,7 +127,9 @@ public class Cursor : MonoBehaviour
                         UnityEngine.Cursor.visible = false;
                         cursorImage.enabled = true;
                     }
-                    this.transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    if (useMouse) {
+                        this.transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+                    }
                     Magnify(hit.point);
                 }
             }

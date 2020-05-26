@@ -35,6 +35,10 @@ public class PopulationManager : MonoBehaviour
         StartCoroutine("SpawnSubjects", numberOfSubjects);
     }
 
+    public void GetNextInfectedPosition() {
+        
+    }
+
     private IEnumerator SpawnSubjects(int num) {
         for (int i = 0; i < num; i++) {          
             var obj = Instantiate(subjectTemplate);
