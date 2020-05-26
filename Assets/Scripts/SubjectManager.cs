@@ -105,6 +105,7 @@ public class SubjectManager : MonoBehaviour
     private float roamRadius = 150f;
 
     public float hideTime = 2f;
+    public bool shouldWalk = true;
     private float timer = 0.1f;
     private bool isFlashing = false;
     // Start is called before the first frame update
@@ -126,7 +127,9 @@ public class SubjectManager : MonoBehaviour
     void Update()
     {
         if (subjectVisibility == SubjectVisibility.Hidden) {
-            Roam();
+            if (shouldWalk) {
+                Roam();
+            }
         }
         else if (subjectVisibility == SubjectVisibility.Visible) {
             timer -= Time.deltaTime;
@@ -146,7 +149,7 @@ public class SubjectManager : MonoBehaviour
         }
     }
 
-    public void onTooMuchSpread(int scoreThreshold, int subjectsLeftInfected) {
+    public void onTooMuchSpread() {
         StartCoroutine(Flash());
     }
 
