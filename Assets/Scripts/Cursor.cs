@@ -10,6 +10,7 @@ public enum MagnifyMode {
     OnClickSingle,
     OnClickMultiple,
     OnHover,
+    OnHoverDemo
 }
 
 public enum ChargingState {
@@ -57,10 +58,14 @@ public class Cursor : MonoBehaviour
     public bool magnifyAllowed = false;
     public bool useMouse = true;
 
+    [SerializeField]
     private Image cursorImage;
+    private clickFlash clickFlash;
+    [SerializeField]
+    private clickFlash mouseclickFlash;
 
     void Awake() {
-        cursorImage = this.GetComponent<Image>();
+        clickFlash = this.GetComponent<clickFlash>();
     }
 
     // Start is called before the first frame update
@@ -171,10 +176,11 @@ public class Cursor : MonoBehaviour
                     chargingState = ChargingState.Charging;
                 }
             }
-        } else if (magnifyMode == MagnifyMode.OnHover) {
+        } else if (magnifyMode == MagnifyMode.OnHover || magnifyMode == MagnifyMode.OnHoverDemo) {
             bool isolateSubject = false;
             if (chargingState == ChargingState.Charged) {
-                if (Input.GetMouseButtonDown(0) ) {
+                if (Input.GetMouseButtonDown(0) || magnifyMode == MagnifyMode.OnHoverDemo) {
+                    Debug.Log("isolate!");
                     isolateSubject = true;
                     onMagnifyUsed.Invoke(pos);
                     currentCharge = 0.0f;
@@ -184,10 +190,14 @@ public class Cursor : MonoBehaviour
             magnifyArea.transform.position = pos;
             Collider[] hitColliders = Physics.OverlapBox(magnifyArea.transform.position, magnifyArea.transform.localScale / 2, Quaternion.identity, m_LayerMask);
             foreach (var coll in hitColliders) {
-                //Debug.Log("Hit : " + coll.name);
+                Debug.Log("Hit : " + coll.name);
                 SubjectManager subject = coll.gameObject.GetComponent<SubjectManager>();
                 subject.RevealSubjectStatus();
-                if (isolateSubject) {
+                if (isolateSubject && subject.GetSubjectStatus() == SubjectStatus.Infected) {
+                    if (magnifyMode == MagnifyMode.OnHoverDemo) {
+                        clickFlash.ClickIt();
+                        mouseclickFlash.ClickIt();
+                    }
                     subject.IsolateInfectedSubject();
                 }
             }

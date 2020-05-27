@@ -222,6 +222,10 @@ public class SubjectManager : MonoBehaviour
         }
     }
 
+    public SubjectStatus GetSubjectStatus() {
+        return subjectStatus;
+    }
+
     public void RevealSubjectStatus() {
         timer = hideTime;
         if (subjectVisibility == SubjectVisibility.Hidden) {
