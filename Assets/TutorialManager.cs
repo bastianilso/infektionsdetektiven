@@ -8,11 +8,13 @@ public class TutorialManager : MonoBehaviour
 {
 
     public int numberOfSubjects = 50;
-    public int numberOfInfections = 1;
+    public int numberOfInfections = 4;
 
     private PopulationManager populationManager;
 
     private float flashTimer = 0f;
+    private float restartTime = 20f;
+    private float restartTimer = 0f;
 
     [Serializable]
     public class OnFlash : UnityEvent {}
@@ -22,24 +24,32 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         populationManager = this.GetComponent<PopulationManager>();
-        PrepareTutorial();
+        StartCoroutine(PrepareTutorial());
     }
 
     // Update is called once per frame
     void Update()
     {
         flashTimer += Time.deltaTime;
-        if (flashTimer > 1f) {
+        if (flashTimer > 5f) {
             flashTimer = 0f;
             onFlash.Invoke();
+        }
+
+        restartTimer += Time.deltaTime;
+        if (restartTimer > restartTime) {
+            populationManager.InfectRandomSubject(1);        
+            restartTimer = 0f;
+
         }
         
     }
 
-    public void PrepareTutorial() {
+    public IEnumerator PrepareTutorial() {
+        populationManager.SetNumberOfInfectedOnStart(numberOfInfections);    
         populationManager.StartPopulation(numberOfSubjects);
-        populationManager.SetNumberOfInfectedOnStart(numberOfInfections);
-        populationManager.StartInfection();
+        yield return new WaitForSeconds(2f);
+        populationManager.InfectRandomSubject(2);
     }
 
 }
