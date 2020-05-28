@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
     public class OnTooMuchSpread : UnityEvent <int, int> {}
     public OnTooMuchSpread onTooMuchSpread;
 
-
     [SerializeField]
     private int[] scoreList;
     private int scoreIndex = 0;
@@ -75,12 +74,19 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private DangerImage dangerImage;
     
+    [SerializeField]
+    private EventLogger eventLogger;
+
+    private Dictionary<string, object> gameLog = new Dictionary<string, object>();
+
     private float countDownTime = 5f;
     private float countDownTimer = 0f;
+    public float samplingFrequency = 1f;
     private int prevTime;
 
     private LevelManager levelManager;
     private GameSettings currentLevel;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -101,6 +107,7 @@ public class GameManager : MonoBehaviour
 
             if (countDownTimer < 1) {
                 gameState = GameState.Playing;
+                StartCoroutine(SampleLogger());
                 populationManager.StartInfection();
                 onGameCountDown.Invoke((int) countDownTimer);
                 onGameStateChanged.Invoke(gameTime, gameState);
@@ -122,6 +129,7 @@ public class GameManager : MonoBehaviour
             }
 
             if (populationScore > 0) {
+                StopCoroutine(SampleLogger());
                 //Debug.Log("Gametime: " + gameTime.ToString());
                 if (populationScore < currentLevel.gameOverScore) {
                         gameState = GameState.GameLost;
@@ -143,6 +151,16 @@ public class GameManager : MonoBehaviour
         } else if (gameState == GameState.Stopped) {
             onGameStateChanged.Invoke(gameTime, gameState);
             ResetGame();
+        }
+    }
+
+    private IEnumerator SampleLogger() {
+        while (true) {
+            gameLog = new Dictionary<string, object>();
+            gameLog["GameTime"] = gameTime;
+            gameLog["NumberOfInfected"] = subjectsInfectedScore;
+            eventLogger.AddToGameLog(gameLog);
+            yield return new WaitForSeconds(samplingFrequency);
         }
     }
 
