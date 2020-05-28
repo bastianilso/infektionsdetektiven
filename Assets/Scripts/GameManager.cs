@@ -17,6 +17,7 @@ public enum GameState {
 
 public class GameStats {
     public float gameTime;
+    public int daysToWin;
     public int numberOfSubjects;
     public int subjectsInfectedScore;
     public int subjectsTestedScore;
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
             GameStats gameStats = new GameStats();
             gameStats.gameTime = gameTime;
             gameStats.numberOfSubjects = currentLevel.numberOfSubjects;
+            gameStats.daysToWin = currentLevel.daysToWin;
             gameStats.subjectsInfectedScore = subjectsInfectedScore;
             gameStats.subjectsTestedScore = subjectsTestedScore;
             gameStats.populationScore = populationScore;

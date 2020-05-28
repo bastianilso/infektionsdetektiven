@@ -12,11 +12,11 @@ public class CurveCanvasSettings {
     public string yLabel;
 }
 
-public class InfectionCurveRender : MonoBehaviour
+public class CurveRender : MonoBehaviour
 {
 
     [SerializeField]
-    private UILineRenderer infectionCurve;
+    private UILineRenderer curve;
 
     public string xLabel = "x";
     public string yLabel = "y";
@@ -50,7 +50,7 @@ public class InfectionCurveRender : MonoBehaviour
         yMax = settings.yMax;
     }
 
-    public void GenerateCurve(Dictionary<int, object> xCoords, Dictionary<int, object> yCoords) {
+    public void GenerateCurveFromGameLogs(Dictionary<int, object> xCoords, Dictionary<int, object> yCoords) {
         int logCount = xCoords.Keys.Count;
         Vector2[] points = new Vector2[logCount];
         for (int i = 0; i < logCount; i++)
@@ -77,6 +77,14 @@ public class InfectionCurveRender : MonoBehaviour
             }
             points[i] = new Vector2(xVal,yVal);
         }
-        infectionCurve.Points = points;
+        curve.Points = points;
+    }
+
+    public void GenerateCurveFromVector2(Vector2[] v) {
+        Vector2[] points = new Vector2[v.Length];
+        for (int i = 0; i < v.Length; i++) {
+            points[i] = new Vector2(GetCurveCoordinate(v[i].x, xMax), GetCurveCoordinate(v[i].y, yMax));
+        }
+        curve.Points = points;
     }
 }
