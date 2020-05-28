@@ -81,7 +81,7 @@ public class Cursor : MonoBehaviour
                 chargingState = ChargingState.Charged;
             } else {
                 currentCharge = currentCharge + chargingAmount;
-                Debug.Log("new charge: " + (currentCharge) );
+                //Debug.Log("new charge: " + (currentCharge) );
             }
 
             ChargeInfo chargeInfo = new ChargeInfo();
@@ -121,9 +121,9 @@ public class Cursor : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)) {
                 GameObject objectHit = hit.transform.gameObject;
-                if (objectHit.tag == "dontMagnify") {
+                if (objectHit.tag == "dontMagnify") { 
                     if (cursorImage.enabled) {
-                        //cursorImage.enabled = false;
+                        cursorImage.enabled = false;
                         this.transform.position = new Vector2(-10000f, -10000f);
                         UnityEngine.Cursor.visible = true;
                     }
@@ -180,7 +180,6 @@ public class Cursor : MonoBehaviour
             bool isolateSubject = false;
             if (chargingState == ChargingState.Charged) {
                 if (Input.GetMouseButtonDown(0) || magnifyMode == MagnifyMode.OnHoverDemo) {
-                    Debug.Log("isolate!");
                     isolateSubject = true;
                     onMagnifyUsed.Invoke(pos);
                     currentCharge = 0.0f;
@@ -190,7 +189,6 @@ public class Cursor : MonoBehaviour
             magnifyArea.transform.position = pos;
             Collider[] hitColliders = Physics.OverlapBox(magnifyArea.transform.position, magnifyArea.transform.localScale / 2, Quaternion.identity, m_LayerMask);
             foreach (var coll in hitColliders) {
-                Debug.Log("Hit : " + coll.name);
                 SubjectManager subject = coll.gameObject.GetComponent<SubjectManager>();
                 subject.RevealSubjectStatus();
                 if (isolateSubject && subject.GetSubjectStatus() == SubjectStatus.Infected) {
