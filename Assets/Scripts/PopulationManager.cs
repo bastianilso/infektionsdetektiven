@@ -22,7 +22,7 @@ public class PopulationManager : MonoBehaviour
     public class OnSubjectSpawned : UnityEvent <SubjectManager> {}
     public OnSubjectSpawned onSubjectSpawned;
 
-    private int numberOfInfectedOnStart = 1;
+    private int lastId = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,21 +46,18 @@ public class PopulationManager : MonoBehaviour
             obj.transform.localPosition = new Vector3(newSpawnPoint.x, 0f, newSpawnPoint.z);
             obj.SetActive(true);
 
-            allSubjects[i] = obj.GetComponent<SubjectManager>();
-            allSubjects[i].id = i;
-            onSubjectSpawned.Invoke(allSubjects[i]);
+            allSubjects[lastId] = obj.GetComponent<SubjectManager>();
+            allSubjects[lastId].id = lastId;
+            onSubjectSpawned.Invoke(allSubjects[lastId]);
+            lastId++;
             yield return new WaitForSeconds(0.00005f);
         }
         yield return null;
 
     }
 
-    public void SetNumberOfInfectedOnStart(int num) {
-        numberOfInfectedOnStart = num;
-    }
-
-    public void StartInfection() {
-        InfectRandomSubject(numberOfInfectedOnStart);
+    public void StartInfection(int numberOfInfected) {
+        InfectRandomSubject(numberOfInfected);
     }
 
     public void InfectSubject(int id) {

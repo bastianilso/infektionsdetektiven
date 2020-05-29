@@ -94,14 +94,14 @@ public class SpreadPanel : MonoBehaviour
         infectionCurve.GenerateCurveFromGameLogs(gameLogs["GameTime"], gameLogs["NumberOfInfected"]);
 
         infectionAnnotation.SetUpCurveCanvas(settings);
-        annotationPos = new Vector2(stats.gameTime, (float) stats.subjectsInfectedScore);
+        annotationPos = new Vector2(stats.gameTime, System.Convert.ToSingle(gameLogs["NumberOfInfected"][logCount]) );
         infectionAnnotation.SetPositionByVector2(annotationPos);
 
         isolationCurve.SetUpCurveCanvas(settings);
         isolationCurve.GenerateCurveFromGameLogs(gameLogs["GameTime"], gameLogs["NumberOfIsolated"]);
 
         isolationAnnotation.SetUpCurveCanvas(settings);
-        annotationPos = new Vector2(stats.gameTime, (float) stats.subjectsIsolationScore);
+        annotationPos = new Vector2(stats.gameTime, System.Convert.ToSingle(gameLogs["NumberOfIsolated"][logCount]));
         isolationAnnotation.SetPositionByVector2(annotationPos);
 
         CurveCanvasSettings timeSettings = new CurveCanvasSettings();
@@ -116,7 +116,7 @@ public class SpreadPanel : MonoBehaviour
         gameOverSettings.xMin = 0f;
         gameOverSettings.xMax = 1f;
         gameOverSettings.yMin = 0f;
-        gameOverSettings.yMax = 1f;
+        gameOverSettings.yMax = stats.numberOfSubjects;
         gameOverCurve.SetUpCurveCanvas(gameOverSettings);
 
         Vector2[] gameOverData = new Vector2[2];

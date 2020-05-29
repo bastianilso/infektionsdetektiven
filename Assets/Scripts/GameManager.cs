@@ -95,7 +95,6 @@ public class GameManager : MonoBehaviour
         populationManager = this.GetComponent<PopulationManager>();
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         currentLevel = levelManager.GetCurrentLevelSettings();
-        populationManager.SetNumberOfInfectedOnStart(currentLevel.numberOfInfectedOnStart);
         PrepareGame();
     }
 
@@ -109,7 +108,7 @@ public class GameManager : MonoBehaviour
             if (countDownTimer < 1) {
                 gameState = GameState.Playing;
                 StartCoroutine(SampleLogger());
-                populationManager.StartInfection();
+                populationManager.StartInfection(currentLevel.numberOfInfectedOnStart);
                 onGameCountDown.Invoke((int) countDownTimer);
                 onGameStateChanged.Invoke(gameTime, gameState);
             } else if ((int) countDownTimer != prevTime) {
@@ -125,8 +124,10 @@ public class GameManager : MonoBehaviour
             }
 
             if (subjectsInfectedScore - subjectsIsolationScore < 1) {
-                Debug.Log("There are no infected subjects left, create new infections.");
-                populationManager.StartInfection();
+                Debug.Log("There are no infected subjects left, create new infections and people.");
+                populationManager.StartInfection(1);
+                populationManager.StartPopulation(1);
+                currentLevel.numberOfSubjects++;
             }
 
             if (populationScore > 0) {

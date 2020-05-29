@@ -46,7 +46,6 @@ public class TutorialManager : MonoBehaviour
     }
 
     public IEnumerator PrepareTutorial() {
-        populationManager.SetNumberOfInfectedOnStart(numberOfInfections);    
         populationManager.StartPopulation(numberOfSubjects);
         yield return new WaitForSeconds(2f);
         populationManager.InfectRandomSubject(2);
