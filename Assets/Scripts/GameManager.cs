@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
             gameLog = new Dictionary<string, object>();
             gameLog["GameTime"] = gameTime;
             gameLog["NumberOfInfected"] = subjectsInfectedScore;
+            gameLog["NumberOfIsolated"] = subjectsIsolationScore;
             eventLogger.AddToGameLog(gameLog);
             yield return new WaitForSeconds(samplingFrequency);
         }
