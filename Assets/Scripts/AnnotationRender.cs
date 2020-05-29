@@ -26,14 +26,12 @@ public class AnnotationRender : MonoBehaviour
     public bool useY = false;
     public float xOffset = 0f;
     public float yOffset = 0f;
-    public Vector2 normVec;
 
     // Start is called before the first frame update
     void Awake()
     {
         float xMinRect = canvasRect.rect.xMin;
         float xMaxRect = canvasRect.rect.xMax;
-        // y is swapped since canvas starts in upper left corner.
         float yMinRect = canvasRect.rect.yMin;
         float yMaxRect = canvasRect.rect.yMax;
     }

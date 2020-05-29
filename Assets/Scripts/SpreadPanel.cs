@@ -21,16 +21,26 @@ public class SpreadPanel : MonoBehaviour
     private CurveRender gameOverCurve;
 
     [SerializeField]
+    private CurveRender isolationCurve;
+
+    [SerializeField]
+    private CurveRender timeCurve;
+
+    [SerializeField]
     private AnnotationRender gameOverAnnotation;
 
     [SerializeField]
     private AnnotationRender infectionAnnotation;
 
     [SerializeField]
-    private CurveRender isolationCurve;
+    private AnnotationRender isolationAnnotation;
 
     [SerializeField]
-    private AnnotationRender isolationAnnotation;
+    private AnnotationRender timeAnnotation;
+
+    [SerializeField]
+    private Text timeAnnotationText;
+    private string timeAnnotationTextTemplate;
 
     [SerializeField]
     private Text spreadText;
@@ -57,6 +67,7 @@ public class SpreadPanel : MonoBehaviour
         yMaxLabelTemplate = yMaxLabel.text;
         spreadTextTemplate = spreadText.text;
         isolationEffectiveTemplate = isolationEffectiveText.text;
+        timeAnnotationTextTemplate = timeAnnotationText.text;
         
     }
 
@@ -73,17 +84,12 @@ public class SpreadPanel : MonoBehaviour
         settings.xMax = stats.gameWonScore;
         settings.yMin = 0f;
         settings.yMax = stats.numberOfSubjects;
-        settings.xLabel = "Dage";
-        settings.yLabel = "Inficerede";
-        infectionCurve.SetUpCurveCanvas(settings);
-
         xMaxLabel.text = string.Format(xMaxLabelTemplate, stats.daysToWin.ToString());
         yMaxLabel.text = string.Format(yMaxLabelTemplate, stats.numberOfSubjects.ToString());
 
-        int chosenDay = stats.daysToWin / 2;
-        int logCount = gameLogs["GameTime"].Keys.Count;
-        UpdateText(chosenDay, logCount / 2);
+        UpdateText(0.5f);
 
+        infectionCurve.SetUpCurveCanvas(settings);
         infectionCurve.GenerateCurveFromGameLogs(gameLogs["GameTime"], gameLogs["NumberOfInfected"]);
 
         infectionAnnotation.SetUpCurveCanvas(settings);
@@ -97,25 +103,58 @@ public class SpreadPanel : MonoBehaviour
         annotationPos = new Vector2(stats.gameTime, (float) stats.subjectsIsolationScore);
         isolationAnnotation.SetPositionByVector2(annotationPos);
 
-        settings.xMin = 0f;
-        settings.xMax = 1f;
-        gameOverCurve.SetUpCurveCanvas(settings);
+        CurveCanvasSettings timeSettings = new CurveCanvasSettings();
+        timeSettings.xMin = 0f;
+        timeSettings.xMax = 1f;
+        timeSettings.yMin = 0f;
+        timeSettings.yMax = 1f;
+        timeCurve.SetUpCurveCanvas(timeSettings);
+        timeAnnotation.SetUpCurveCanvas(timeSettings);
+
+        CurveCanvasSettings gameOverSettings = new CurveCanvasSettings();
+        gameOverSettings.xMin = 0f;
+        gameOverSettings.xMax = 1f;
+        gameOverSettings.yMin = 0f;
+        gameOverSettings.yMax = 1f;
+        gameOverCurve.SetUpCurveCanvas(gameOverSettings);
+
         Vector2[] gameOverData = new Vector2[2];
         gameOverData[0] = new Vector2(0f, (float) (stats.numberOfSubjects - stats.gameOverScore) );
         gameOverData[1] = new Vector2(1f, (float) (stats.numberOfSubjects - stats.gameOverScore) );
         gameOverCurve.GenerateCurveFromVector2(gameOverData);
 
-        gameOverAnnotation.SetUpCurveCanvas(settings);
+        gameOverAnnotation.SetUpCurveCanvas(gameOverSettings);
         annotationPos = new Vector2(0f, (float) (stats.numberOfSubjects - stats.gameOverScore));
         gameOverAnnotation.SetPositionByVector2(annotationPos);
     }
 
-    private void UpdateText(int chosenDay, int logCount) {
-        float isolationEffective = (float) stats.subjectsIsolationScore / (float) stats.subjectsInfectedScore * 100f;
-        isolationEffectiveText.text = string.Format(isolationEffectiveTemplate, isolationEffective.ToString("00"));
+    private void UpdateText(float timeVal) {
+        timeVal = timeVal > 1f ? 1f : timeVal;
+        timeVal = timeVal < 0f ? 0f : timeVal;
+
+        int chosenDay = Mathf.RoundToInt((float) stats.daysToWin * timeVal);
+        int logCount = Mathf.RoundToInt((float) (gameLogs["GameTime"].Keys.Count-1) * timeVal);
 
         int numInfected = (int) gameLogs["NumberOfInfected"][logCount];
+        int numIsolated = (int) gameLogs["NumberOfIsolated"][logCount];
+
+        float isolationEffective = (float) numIsolated / (float) numInfected * 100f;
+        isolationEffectiveText.text = string.Format(isolationEffectiveTemplate, isolationEffective.ToString("F0"));
+        if (numIsolated == 0) {
+            isolationEffectiveText.text = "Du isolerede ikke endnu nogen syge.";
+        } 
+
+        timeAnnotationText.text = string.Format(timeAnnotationTextTemplate, chosenDay.ToString());
         spreadText.text = string.Format(spreadTextTemplate, chosenDay.ToString(), numInfected.ToString());
+    }
+
+    public void OnSliderChanged(float val) {
+        Vector2[] timeCurveData = new Vector2[2];
+        timeCurveData[0] = new Vector2(val, 0f);
+        timeCurveData[1] = new Vector2(val, 1f);
+        timeCurve.GenerateCurveFromVector2(timeCurveData);
+        timeAnnotation.SetPositionByVector2(timeCurveData[0]);
+        UpdateText(val);
     }
 
 }

@@ -8,8 +8,6 @@ public class CurveCanvasSettings {
     public float xMax;
     public float yMin;
     public float yMax;
-    public string xLabel;
-    public string yLabel;
 }
 
 public class CurveRender : MonoBehaviour
@@ -18,8 +16,6 @@ public class CurveRender : MonoBehaviour
     [SerializeField]
     private UILineRenderer curve;
 
-    public string xLabel = "x";
-    public string yLabel = "y";
     public float xMin = 0f;
     public float xMax = 1f;
     public float yMin = 0f;
@@ -42,8 +38,6 @@ public class CurveRender : MonoBehaviour
     }
 
     public void SetUpCurveCanvas(CurveCanvasSettings settings) {
-        xLabel = settings.xLabel;
-        yLabel = settings.yLabel;
         xMin = settings.xMin;
         xMax = settings.xMax;
         yMin = settings.yMin;
