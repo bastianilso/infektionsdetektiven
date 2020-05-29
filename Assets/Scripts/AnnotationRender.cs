@@ -54,9 +54,9 @@ public class AnnotationRender : MonoBehaviour
     public void SetPositionByVector2(Vector2 position) {
         Vector2 normVec = new Vector2( (position.x / xMax), (position.y / yMax) );
         Vector2 point = Rect.NormalizedToPoint(canvasRect.rect, normVec);
-        Debug.Log("positionX / xMax: " + (position.x / xMax).ToString());
-        Debug.Log("positionY / yMax: " + (position.y / yMax).ToString());
-        Debug.Log("point: " + point.ToString());
+        //Debug.Log("positionX / xMax: " + (position.x / xMax).ToString());
+        //Debug.Log("positionY / yMax: " + (position.y / yMax).ToString());
+        //Debug.Log("point: " + point.ToString());
         if (useX) {
             //float newX = GetPointCoordinate(position.x, xMax, xMinRect, xMaxRect);
             annotationObject.anchoredPosition = new Vector2(point.x + xOffset, annotationObject.anchoredPosition.y + yOffset);

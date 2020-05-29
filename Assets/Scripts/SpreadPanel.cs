@@ -79,9 +79,10 @@ public class SpreadPanel : MonoBehaviour
     public void Activate() {
         spreadUI.SetActive(true);
         Vector2 annotationPos;
+        int logCount = (gameLogs["GameTime"].Keys.Count-1);
         CurveCanvasSettings settings = new CurveCanvasSettings();
         settings.xMin = 0f;
-        settings.xMax = stats.gameWonScore;
+        settings.xMax = (float) gameLogs["GameTime"][logCount];
         settings.yMin = 0f;
         settings.yMax = stats.numberOfSubjects;
         xMaxLabel.text = string.Format(xMaxLabelTemplate, stats.daysToWin.ToString());
@@ -139,9 +140,10 @@ public class SpreadPanel : MonoBehaviour
         int numIsolated = (int) gameLogs["NumberOfIsolated"][logCount];
 
         float isolationEffective = (float) numIsolated / (float) numInfected * 100f;
+        Debug.Log("numIsolated: " + numIsolated + ", numInfected: " + numInfected + ", isolationEff: " + isolationEffective + ", logCount: " + logCount + ", timeVal: " + timeVal);
         isolationEffectiveText.text = string.Format(isolationEffectiveTemplate, isolationEffective.ToString("F0"));
         if (numIsolated == 0) {
-            isolationEffectiveText.text = "Du isolerede ikke endnu nogen syge.";
+            isolationEffectiveText.text = "Du isolerede endnu ikke nogen syge.";
         } 
 
         timeAnnotationText.text = string.Format(timeAnnotationTextTemplate, chosenDay.ToString());

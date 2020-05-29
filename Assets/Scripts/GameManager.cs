@@ -130,7 +130,6 @@ public class GameManager : MonoBehaviour
             }
 
             if (populationScore > 0) {
-                StopCoroutine(SampleLogger());
                 //Debug.Log("Gametime: " + gameTime.ToString());
                 if (populationScore < currentLevel.gameOverScore) {
                         gameState = GameState.GameLost;
@@ -156,7 +155,7 @@ public class GameManager : MonoBehaviour
     }
 
     private IEnumerator SampleLogger() {
-        while (true) {
+        while (gameState == GameState.Playing) {
             gameLog = new Dictionary<string, object>();
             gameLog["GameTime"] = gameTime;
             gameLog["NumberOfInfected"] = subjectsInfectedScore;
@@ -164,6 +163,7 @@ public class GameManager : MonoBehaviour
             eventLogger.AddToGameLog(gameLog);
             yield return new WaitForSeconds(samplingFrequency);
         }
+        yield return null;
     }
 
     private GameStats GetGameStats() {
