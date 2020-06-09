@@ -57,6 +57,9 @@ public class GameOver : MonoBehaviour
     [SerializeField]
     private GameObject RetryButton;
 
+    [SerializeField]
+    private EventLogger eventLogger;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -64,6 +67,7 @@ public class GameOver : MonoBehaviour
         numberOfSubjectsInfectedTemplate = numberOfSubjectsInfected.text;
         numberOfSubjectsInIsolationTemplate = numberOfSubjectsInIsolation.text;
         numberOfSubjectsVacTemplate = numberOfSubjectsVac.text;
+        eventLogger = GameObject.Find("Logging").GetComponent<EventLogger>();
     }
 
     // Update is called once per frame
@@ -106,6 +110,11 @@ public class GameOver : MonoBehaviour
             infectionStar.gameObject.SetActive(true);
             infectionStar.color = infectionColor;
             NoinfectionStar.color = new Color(1f,1f,1f,1f);
+            Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                {"Event", "GotInfectionStarAward"},
+                {"EventType", "StatsEvent"},
+            };
+            eventLogger.AddToEventLog(eventLog);
         }
         yield return new WaitForSeconds(0.5f);
 
@@ -115,6 +124,11 @@ public class GameOver : MonoBehaviour
             isolationStar.gameObject.SetActive(true);
             isolationStar.color = isolationColor;
             NoisolationStar.color = new Color(1f,1f,1f,1f);
+            Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                {"Event", "GotIsolationStarAward"},
+                {"EventType", "StatsEvent"},
+            };
+            eventLogger.AddToEventLog(eventLog);
         }
         yield return new WaitForSeconds(0.5f);
 
@@ -125,6 +139,11 @@ public class GameOver : MonoBehaviour
             vaccineStar.gameObject.SetActive(true);
             vaccineStar.color = vaccineColor;
             NovaccineStar.color = new Color(1f,1f,1f,1f);
+            Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                {"Event", "GotVaccinationStarAward"},
+                {"EventType", "StatsEvent"},
+            };
+            eventLogger.AddToEventLog(eventLog);
         }
 
         yield return null;

@@ -159,7 +159,7 @@ public class EventLogger : MonoBehaviour
     }
 
     public void SaveLogs() {
-        SaveCsvLogs();
+        //SaveCsvLogs();
         SaveSqlLogs();
     }
 

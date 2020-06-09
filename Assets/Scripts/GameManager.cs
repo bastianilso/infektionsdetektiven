@@ -54,6 +54,10 @@ public class GameManager : MonoBehaviour
     public class OnTooMuchSpread : UnityEvent <int, int> {}
     public OnTooMuchSpread onTooMuchSpread;
 
+    [Serializable]
+    public class OnGameEvaluation : UnityEvent {}
+    public OnGameEvaluation onGameEvaluation;
+
     [SerializeField]
     private int[] scoreList;
     private int scoreIndex = 0;
@@ -85,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     private LevelManager levelManager;
     private GameSettings currentLevel;
-    
+    private int noOfHearts = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -260,6 +264,12 @@ public class GameManager : MonoBehaviour
         if (subjectsLeftInfected > scoreList[scoreIndex]) {
             scoreIndex++;
             onTooMuchSpread.Invoke(scoreList[scoreIndex], subjectsLeftInfected);
+            Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                {"Event", "SpreadAlarm"},
+                {"EventType", "GameEvent"},
+                {"GameTime", gameTime},
+            };
+            eventLogger.AddToEventLog(eventLog);
         }
     }
 
@@ -275,6 +285,9 @@ public class GameManager : MonoBehaviour
         onGamePreparation.Invoke(GetGameSettings());
         countDownTimer = countDownTime;
         prevTime = (int) countDownTime;
+        if (currentLevel.levelNo == 4) {
+            onGameEvaluation.Invoke();
+        }
     }
 
     public void StartGame() {
@@ -328,15 +341,6 @@ public class GameManager : MonoBehaviour
 
     public void GameOver() {
 
-    }
-
-    public void OnViewStats() {
-        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
-            {"Event", "ViewingStatistics"},
-            {"EventType", "GameEvent"},
-            {"GameTime", gameTime},
-        };
-        eventLogger.AddToEventLog(eventLog);
     }
 
     public void OnShowingSummary() {

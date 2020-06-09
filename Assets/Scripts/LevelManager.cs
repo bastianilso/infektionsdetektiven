@@ -36,7 +36,7 @@ public class LevelManager : MonoBehaviour
         levelDict[1] = new GameSettings() {
             levelNo = 1,
             gameOverScore = 2,
-            gameWonScore = 28f,
+            gameWonScore = 20f,
             daysToWin = 20,
             numberOfSubjects = 20,
             newInfectionSeconds = 30f,
@@ -44,16 +44,16 @@ public class LevelManager : MonoBehaviour
         };
         levelDict[2] = new GameSettings() {
             levelNo = 2,
-            gameOverScore = 5,
-            gameWonScore = 28f,
+            gameOverScore = 10,
+            gameWonScore = 24f,
             daysToWin = 20,
             numberOfSubjects = 40,
-            newInfectionSeconds = 7f,
+            newInfectionSeconds = 6f,
             numberOfInfectedOnStart = 1,
         };
         levelDict[3] = new GameSettings() {
             levelNo = 3,
-            gameOverScore = 10,
+            gameOverScore = 15,
             gameWonScore = 28f,
             daysToWin = 20,
             numberOfSubjects = 40,
@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
         levelDict[4] = new GameSettings() {
             levelNo = 4,
             gameOverScore = 15,
-            gameWonScore = 10f,
+            gameWonScore = 32f,
             daysToWin = 25,
             numberOfSubjects = 50,
             newInfectionSeconds = 2f,

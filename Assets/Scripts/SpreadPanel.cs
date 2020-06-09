@@ -79,6 +79,11 @@ public class SpreadPanel : MonoBehaviour
 
     public void Activate() {
         spreadUI.SetActive(true);
+        Dictionary<string, object> newEvent = new Dictionary<string, object>() {
+            {"Event", "ViewingStatistics"},
+            {"EventType", "StatsEvent"},
+        };
+        eventLog.AddToEventLog(newEvent);
         Vector2 annotationPos;
         CurveCanvasSettings settings = new CurveCanvasSettings();
         settings.xMin = 0f;
