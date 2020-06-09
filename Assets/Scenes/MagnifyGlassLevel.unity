@@ -1364,52 +1364,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 156043033}
   m_CullTransparentMesh: 0
---- !u!1 &181915030
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 181915031}
-  - component: {fileID: 181915032}
-  m_Layer: 0
-  m_Name: Logging
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &181915031
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181915030}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 268.5783, y: 139.47931, z: 3.220943}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &181915032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181915030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8044bb5719035e14ab33f5a950770e12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  savePath: 
-  fileName: log
-  saveLocally: 1
 --- !u!1 &185338244
 GameObject:
   m_ObjectHideFlags: 0
@@ -6214,7 +6168,6 @@ MonoBehaviour:
         m_CallState: 2
   scoreList: 050000000a000000190000003200000064000000c8000000
   dangerImage: {fileID: 962002398}
-  eventLogger: {fileID: 181915032}
   samplingFrequency: 1
 --- !u!4 &490764109
 Transform:
@@ -7752,7 +7705,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de66169f1e645dd428e54d23cf29c127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventLog: {fileID: 181915032}
   spreadUI: {fileID: 1855531328}
   infectionCurve: {fileID: 372897386}
   gameOverCurve: {fileID: 546349900}

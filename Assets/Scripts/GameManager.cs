@@ -74,8 +74,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private DangerImage dangerImage;
-    
-    [SerializeField]
     private EventLogger eventLogger;
 
     private Dictionary<string, object> gameLog = new Dictionary<string, object>();
@@ -94,8 +92,31 @@ public class GameManager : MonoBehaviour
     {
         populationManager = this.GetComponent<PopulationManager>();
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        eventLogger = GameObject.Find("Logging").GetComponent<EventLogger>();
         currentLevel = levelManager.GetCurrentLevelSettings();
         PrepareGame();
+        Dictionary<string, object> stateLog = new Dictionary<string, object>() {
+            {"NumberOfHealthy", populationScore},
+            {"NumberOfIsolated", subjectsIsolationScore},
+            {"NumberOfTested", subjectsTestedScore},
+            {"NumberOfInfected", subjectsInfectedScore},
+            {"GameState", System.Enum.GetName(typeof(GameState), gameState)},
+            {"SubjectsOnStart", currentLevel.numberOfSubjects},
+            {"InfectedOnStart", currentLevel.numberOfInfectedOnStart},
+            {"GameOverScore", currentLevel.gameOverScore},
+            {"GameWonScore", currentLevel.gameWonScore},
+            {"NewInfectionSeconds", currentLevel.newInfectionSeconds},
+            {"LevelNo", currentLevel.levelNo},
+            {"GameResolutionX", Screen.width},
+            {"GameResolutionY", Screen.height}
+        };
+        eventLogger.UpdateStateLog(stateLog);
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", "GameInit"},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
     }
 
     // Update is called once per frame
@@ -111,7 +132,20 @@ public class GameManager : MonoBehaviour
                 populationManager.StartInfection(currentLevel.numberOfInfectedOnStart);
                 onGameCountDown.Invoke((int) countDownTimer);
                 onGameStateChanged.Invoke(gameTime, gameState);
+                eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
+                Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                    {"Event", "Game" + System.Enum.GetName(typeof(GameState), gameState)},
+                    {"EventType", "GameEvent"},
+                    {"GameTime", gameTime},
+                };
+                eventLogger.AddToEventLog(eventLog);
             } else if ((int) countDownTimer != prevTime) {
+                Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                    {"Event", "Countdown" + ((int)countDownTimer-1).ToString()},
+                    {"EventType", "GameEvent"},
+                    {"GameTime", gameTime},
+                };
+                eventLogger.AddToEventLog(eventLog);
                 onGameCountDown.Invoke((int) countDownTimer);
                 prevTime = (int) countDownTimer;
             }
@@ -121,37 +155,71 @@ public class GameManager : MonoBehaviour
             if (newInfectionTimer > currentLevel.newInfectionSeconds) {
                 populationManager.AddNewInfected();
                 newInfectionTimer = 0f;
+                Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                    {"Event", "AddNewInfected"},
+                    {"EventType", "SubjectEvent"},
+                    {"GameTime", gameTime},
+                };
+                eventLogger.AddToEventLog(eventLog);
             }
 
             if (subjectsInfectedScore - subjectsIsolationScore < 1) {
                 Debug.Log("There are no infected subjects left, create new infections and people.");
+                Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                    {"Event", "OutOfInfected"},
+                    {"EventType", "SubjectEvent"},
+                    {"GameTime", gameTime},
+                };
+                eventLogger.AddToEventLog(eventLog);
                 populationManager.StartInfection(1);
                 populationManager.StartPopulation(1);
                 currentLevel.numberOfSubjects++;
+                eventLog = new Dictionary<string, object>() {
+                    {"Event", "AddNewInfected"},
+                    {"EventType", "SubjectEvent"},
+                    {"GameTime", gameTime},
+                };
+                eventLogger.AddToEventLog(eventLog);
             }
 
             if (populationScore > 0) {
                 //Debug.Log("Gametime: " + gameTime.ToString());
                 if (populationScore < currentLevel.gameOverScore) {
                         gameState = GameState.GameLost;
+                        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
+                        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                            {"Event", System.Enum.GetName(typeof(GameState), gameState)},
+                            {"EventType", "GameEvent"},
+                            {"GameTime", gameTime},
+                        };
+                        eventLogger.AddToEventLog(eventLog);
+                        eventLogger.SaveLogs();
+                        eventLogger.ClearLogs();
+                        onGameOver.Invoke(GetGameStats(), gameState);
                 }
                 bool didWin = gameTime > currentLevel.gameWonScore;
                 //Debug.Log("gameTime: " + gameTime + " gameWonScore: " + gameWonScore + "won: " + didWin );
                 if (gameTime > currentLevel.gameWonScore) {
                         Debug.Log("Game Won!");
                         gameState = GameState.GameWon;
+                        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
+                        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+                            {"Event", System.Enum.GetName(typeof(GameState), gameState)},
+                            {"EventType", "GameEvent"},
+                            {"GameTime", gameTime},
+                        };
+                        eventLogger.AddToEventLog(eventLog);
+                        eventLogger.SaveLogs();
+                        eventLogger.ClearLogs();
+                        onGameOver.Invoke(GetGameStats(), gameState);
                 }
             }
             
         } else if (gameState == GameState.GameLost) {
-            onGameStateChanged.Invoke(gameTime, gameState);
-            onGameOver.Invoke(GetGameStats(), gameState);
         } else if (gameState == GameState.GameWon) {
-            onGameStateChanged.Invoke(gameTime, gameState);
-            onGameOver.Invoke(GetGameStats(), gameState);
         } else if (gameState == GameState.Stopped) {
-            onGameStateChanged.Invoke(gameTime, gameState);
-            ResetGame();
+            //onGameStateChanged.Invoke(gameTime, gameState);
+            //ResetGame();
         }
     }
 
@@ -161,6 +229,8 @@ public class GameManager : MonoBehaviour
             gameLog["GameTime"] = gameTime;
             gameLog["NumberOfInfected"] = subjectsInfectedScore;
             gameLog["NumberOfIsolated"] = subjectsIsolationScore;
+            gameLog["NumberOfHealthy"] = populationScore;
+            gameLog["NumberOfTested"] = subjectsTestedScore;
             eventLogger.AddToGameLog(gameLog);
             yield return new WaitForSeconds(samplingFrequency);
         }
@@ -200,6 +270,7 @@ public class GameManager : MonoBehaviour
     public void PrepareGame() {
         populationManager.StartPopulation(currentLevel.numberOfSubjects);
         gameState = GameState.Preparation;
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
         onGameStateChanged.Invoke(gameTime, gameState);
         onGamePreparation.Invoke(GetGameSettings());
         countDownTimer = countDownTime;
@@ -209,26 +280,72 @@ public class GameManager : MonoBehaviour
     public void StartGame() {
         gameState = GameState.CountDown;
         onGameStateChanged.Invoke(gameTime, gameState);
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
     }
 
     public void AbortGame() {
         gameState = GameState.Stopped;
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"GameState", System.Enum.GetName(typeof(GameState), gameState)}});
         onGameStateChanged.Invoke(gameTime, gameState);
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", System.Enum.GetName(typeof(GameState), gameState)},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
+        eventLogger.SaveLogs();
+        eventLogger.ClearLogs();
         SceneManager.LoadScene("MagnifyGlassMainMenu");
         //Application.Quit();
     }
 
     public void NextLevel() {
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", "NextLevel"},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
+        eventLogger.SaveLogs();
+        eventLogger.ClearLogs();
+        eventLogger.ClearGameLogs();
         levelManager.IncrementLevel();
         levelManager.LoadNextLevel();
     }
 
     public void ReloadLevel() {
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", "ReloadingLevel"},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
+        eventLogger.SaveLogs();
+        eventLogger.ClearLogs();
+        eventLogger.ClearGameLogs();
         levelManager.LoadNextLevel();
     }
 
     public void GameOver() {
 
+    }
+
+    public void OnViewStats() {
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", "ViewingStatistics"},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
+    }
+
+    public void OnShowingSummary() {
+        Dictionary<string, object> eventLog = new Dictionary<string, object>() {
+            {"Event", "ShowingSummary"},
+            {"EventType", "GameEvent"},
+            {"GameTime", gameTime},
+        };
+        eventLogger.AddToEventLog(eventLog);
     }
 
     //public void SetOneInfected() {
@@ -245,6 +362,7 @@ public class GameManager : MonoBehaviour
 
     public void IncreasePopulationCount(SubjectManager subjectManager) {
         populationScore++;
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"NumberOfHealthy", populationScore}});
         onPopulationChange.Invoke(GetGameStats());
     }
 
@@ -252,6 +370,7 @@ public class GameManager : MonoBehaviour
         if (subjectStatus == SubjectStatus.Infected) {
             populationScore--;
             dangerImage.TriggerDangerImage();
+            eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"NumberOfHealthy", populationScore}});
             if (gameState == GameState.Playing) {
                 onPopulationChange.Invoke(GetGameStats());
             }
@@ -261,6 +380,7 @@ public class GameManager : MonoBehaviour
     public void IncreaseSubjectInfectedCount(int id, SubjectStatus subjectStatus) {
         if (subjectStatus == SubjectStatus.Infected) {
             subjectsInfectedScore++;
+            eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"NumberOfInfected", subjectsInfectedScore}});
             if (gameState == GameState.Playing) {
                 onPopulationChange.Invoke(GetGameStats());
                 EvaluateTooMuchSpread();
@@ -270,10 +390,12 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseNumberOfTestsCount() {
         subjectsTestedScore++;
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"NumberOfTested", subjectsTestedScore}});
     }
 
     public void IncreaseSubjectsInIsolationCount(int id, SubjectStatus subjectStatus) {
         subjectsIsolationScore++;
+        eventLogger.UpdateStateLog(new Dictionary<string, object>() {{"NumberOfIsolated", subjectsIsolationScore}});
         if (gameState == GameState.Playing) {
             onPopulationChange.Invoke(GetGameStats());
         }

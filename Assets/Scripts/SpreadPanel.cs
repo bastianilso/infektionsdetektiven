@@ -8,7 +8,6 @@ public class SpreadPanel : MonoBehaviour
 
     private GameStats stats;
 
-    [SerializeField]
     private EventLogger eventLog;
 
     [SerializeField]
@@ -59,6 +58,7 @@ public class SpreadPanel : MonoBehaviour
     private string yMaxLabelTemplate;
 
     Dictionary<string, Dictionary<int, object>> gameLogs;
+    int logCount;
 
     // Start is called before the first frame update
     void Awake()
@@ -68,18 +68,18 @@ public class SpreadPanel : MonoBehaviour
         spreadTextTemplate = spreadText.text;
         isolationEffectiveTemplate = isolationEffectiveText.text;
         timeAnnotationTextTemplate = timeAnnotationText.text;
-        
+        eventLog = GameObject.Find("Logging").GetComponent<EventLogger>();
     }
 
     public void OnGameOver(GameStats gameStats, GameState gameState) {
         stats = gameStats;
         gameLogs = eventLog.GetGameLogs();
+        logCount = (gameLogs["GameTime"].Keys.Count-1);
     }
 
     public void Activate() {
         spreadUI.SetActive(true);
         Vector2 annotationPos;
-        int logCount = (gameLogs["GameTime"].Keys.Count-1);
         CurveCanvasSettings settings = new CurveCanvasSettings();
         settings.xMin = 0f;
         settings.xMax = (float) gameLogs["GameTime"][logCount];
