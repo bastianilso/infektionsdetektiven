@@ -322,6 +322,7 @@ public class ConnectToMySQL : MonoBehaviour {
 		if (dataDumps.Count > 0 && colDumps.Count > 0) {
 			for (int i = 0; i < dataDumps.Count; i++) {
 				var fileDumps = Directory.GetFiles(directory, "logdump*");
+				/*
 				using (StreamWriter writer = File.AppendText (directory + "logdump" + fileDumps.Length)) {
 					writer.WriteLine (dataDumps[i]);
 				}
@@ -335,6 +336,7 @@ public class ConnectToMySQL : MonoBehaviour {
 				using (StreamWriter writer = File.AppendText (directory + "coldump" + fileDumps.Length)) {
 					writer.WriteLine (colDumps[i]);
 				}
+				*/
 			}
 			dataDumps.Clear();
 			colDumps.Clear();
@@ -343,7 +345,7 @@ public class ConnectToMySQL : MonoBehaviour {
 	}
 
 	private void DetectDumpedLogs() {
-		// If no credentials are available, we skip dumplog detection.
+		/*// If no credentials are available, we skip dumplog detection.
 		if (credentials == null) {
 			Debug.LogWarning("No credentials loaded, aborting logdump detection..");
 			return;
@@ -417,6 +419,7 @@ public class ConnectToMySQL : MonoBehaviour {
 			WWWForm form = PrepareForm(dbCols, dataString);
 			StartCoroutine (SubmitLogs (form));
 		}
+		*/
 	}
 
 	private static string Md5Sum(string strToEncrypt) {
@@ -452,7 +455,7 @@ public class ConnectToMySQL : MonoBehaviour {
 
 
 	private void SaveCredentialsToDisk() {
-		string authDirectory = Application.persistentDataPath + "/Auth/";
+		/*string authDirectory = Application.persistentDataPath + "/Auth/";
 
 
 
@@ -467,6 +470,7 @@ public class ConnectToMySQL : MonoBehaviour {
 		}
 
 		Debug.Log("Credentials saved to: " + authDirectory + "mysql_auth.txt");
+		*/
 	}
 
 	private void LoadBuiltInCredentials() {
@@ -481,7 +485,7 @@ public class ConnectToMySQL : MonoBehaviour {
 	}
 
 	private void DetectCredentialsOnDisk() {
-		string authDirectory = Application.persistentDataPath + "/Auth/";
+		/*string authDirectory = Application.persistentDataPath + "/Auth/";
 
 		if (File.Exists (authDirectory + "mysql_auth.txt")) {
 			Debug.Log("Loading credentials from: " + authDirectory + "mysql_auth.txt");
@@ -518,6 +522,7 @@ public class ConnectToMySQL : MonoBehaviour {
 			Button button = connectButton.GetComponent<Button>();
 			button.onClick.AddListener(() => Toggle_AuthConnect());
 		}
+		*/
 	}
 		
 }
