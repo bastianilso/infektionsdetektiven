@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
         levelDict[4] = new GameSettings() {
             levelNo = 4,
             gameOverScore = 15,
-            gameWonScore = 32f,
+            gameWonScore = 10f,
             daysToWin = 25,
             numberOfSubjects = 50,
             newInfectionSeconds = 2f,

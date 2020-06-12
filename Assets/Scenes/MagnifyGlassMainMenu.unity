@@ -6411,7 +6411,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab22e7b89d1224d5cb1ceb845cd6aead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  builtInCredentials: {fileID: 4900000, guid: 91bad90e5cb04f849a3217ac424c0bcf, type: 3}
+  builtInCredentials:
+  - {fileID: 4900000, guid: 66385034999e3544890361e40d82e92a, type: 3}
+  - {fileID: 4900000, guid: 2d48478e1d6135c4b87e22f39b42eae7, type: 3}
+  - {fileID: 4900000, guid: 0208f185d406b484091cdd03d1934fe5, type: 3}
   statusMessage: {fileID: 0}
   errorColor: {r: 0, g: 0, b: 0, a: 0}
   onLogsUploaded:
@@ -6429,10 +6432,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8044bb5719035e14ab33f5a950770e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  email: anonymous
   savePath: C:\Users\biho\aau-private-space
-  fileName: infektionsdetektivenLog
+  filePrefix: log
+  fileExtension: .csv
   saveLocally: 1
+  CreateMetaCollection: 1
   connectToMySQL: {fileID: 1208640620}
+  filestamp: 
 --- !u!114 &1208640622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7141,10 +7148,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8044bb5719035e14ab33f5a950770e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  email: anonymous
   savePath: C:\Users\biho\aau-private-space
-  fileName: infektionsdetektivenLog
+  filePrefix: log
+  fileExtension: .csv
   saveLocally: 1
+  CreateMetaCollection: 1
   connectToMySQL: {fileID: 0}
+  filestamp: 
 --- !u!1001 &1468996790
 PrefabInstance:
   m_ObjectHideFlags: 0

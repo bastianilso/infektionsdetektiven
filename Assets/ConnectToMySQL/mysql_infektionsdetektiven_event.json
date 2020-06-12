@@ -1,0 +1,9 @@
+{
+"label": "Event",
+"dbName": "covid19",
+"table": "infektionsdetektiven_event",
+"username": "infektionsdetektiven",
+"password": "symphysispubis",
+"dbURL": "https://il.create.aau.dk/logtodb.php",
+"dbSecKey": "HxA6KTaE"
+}

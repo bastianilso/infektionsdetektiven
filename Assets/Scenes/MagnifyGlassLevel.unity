@@ -2386,7 +2386,6 @@ GameObject:
   m_Component:
   - component: {fileID: 292949923}
   - component: {fileID: 292949922}
-  - component: {fileID: 292949924}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -2504,18 +2503,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &292949924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 292949921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d8c420d5c1377a43bfe2007a44fd5cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &293241088
 GameObject:
   m_ObjectHideFlags: 0
@@ -4552,7 +4539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -362.64514}
+  m_AnchoredPosition: {x: 512, y: -362.75165}
   m_SizeDelta: {x: 801.9518, y: 159.99252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &337969675
@@ -14074,6 +14061,7 @@ MonoBehaviour:
   GameLostPanel: {fileID: 1204355295}
   NextLevelButton: {fileID: 734122190}
   RetryButton: {fileID: 796283314}
+  eventLogger: {fileID: 0}
 --- !u!1 &1195367631
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,7 +19758,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -182.82646}
+  m_AnchoredPosition: {x: 512, y: -182.933}
   m_SizeDelta: {x: 701.1792, y: 122.184814}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1618361751
@@ -23692,7 +23680,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -507.81866}
+  m_AnchoredPosition: {x: 512, y: -507.92523}
   m_SizeDelta: {x: 821.6432, y: 52.89456}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103738195

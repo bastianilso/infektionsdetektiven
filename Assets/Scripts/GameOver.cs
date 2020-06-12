@@ -114,7 +114,7 @@ public class GameOver : MonoBehaviour
                 {"Event", "GotInfectionStarAward"},
                 {"EventType", "StatsEvent"},
             };
-            eventLogger.AddToEventLog(eventLog);
+            eventLogger.Log("Event", eventLog);
         }
         yield return new WaitForSeconds(0.5f);
 
@@ -128,7 +128,7 @@ public class GameOver : MonoBehaviour
                 {"Event", "GotIsolationStarAward"},
                 {"EventType", "StatsEvent"},
             };
-            eventLogger.AddToEventLog(eventLog);
+            eventLogger.Log("Event", eventLog);
         }
         yield return new WaitForSeconds(0.5f);
 
@@ -143,7 +143,7 @@ public class GameOver : MonoBehaviour
                 {"Event", "GotVaccinationStarAward"},
                 {"EventType", "StatsEvent"},
             };
-            eventLogger.AddToEventLog(eventLog);
+            eventLogger.Log("Event", eventLog);
         }
 
         yield return null;

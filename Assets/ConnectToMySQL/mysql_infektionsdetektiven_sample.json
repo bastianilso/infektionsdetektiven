@@ -1,0 +1,9 @@
+{
+"label": "Sample",
+"dbName": "covid19",
+"table": "infektionsdetektiven_sample",
+"username": "infektionsdetektiven",
+"password": "symphysispubis",
+"dbURL": "https://il.create.aau.dk/logtodb.php",
+"dbSecKey": "HxA6KTaE"
+}

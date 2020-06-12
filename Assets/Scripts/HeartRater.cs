@@ -100,9 +100,12 @@ public class HeartRater : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", "Evaluation"},
             {"EventType", "EvalEvent"},
+        };
+        eventLogger.Log("Event", eventLog);
+        Dictionary<string, object> metaLog = new Dictionary<string, object>() {
             {"HowMuchDoYouLikeGame", currentRating},
         };
-        eventLogger.AddToEventLog(eventLog);
-        eventLogger.SaveLogs();
+        eventLogger.Log("Meta", metaLog, LogMode.Overwrite);
+        eventLogger.SaveLog("Meta");
     }
 }

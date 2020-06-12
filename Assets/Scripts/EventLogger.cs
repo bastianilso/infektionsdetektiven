@@ -5,255 +5,222 @@ using System.IO;
 using System;
 using System.Globalization;
 
+public enum LogMode {
+    Append,
+    Overwrite
+}
+
 public enum EventType {
     GameEvent,
     SubjectEvent,
     PlayerEvent,
 }
 
+public class LogCollection {
+    public string label;
+    public int count = 0;
+    public bool saveHeaders = true;
+    public Dictionary<string, Dictionary<int, object>> log = new Dictionary<string, Dictionary<int, object>>();
+}
+
 public class EventLogger : MonoBehaviour
 {
-
     private Dictionary<string, string> statelogs = new Dictionary<string, string>();
     private Dictionary<string, Dictionary<int, string>> logs = new Dictionary<string, Dictionary<int, string>>();
 
-    private Dictionary<string, Dictionary<int, object>> gamelogs = new Dictionary<string, Dictionary<int, object>>();
+    // sampleLog[COLUMN NAME][COLUMN NO.] = [OBJECT] (fx a float, int, string, bool)
+    private Dictionary<string, LogCollection> collections = new Dictionary<string, LogCollection>();
+
+    [SerializeField]
+    private string email = "anonymous";
 
     [SerializeField]
     private string savePath = "";
 
     [SerializeField]
-    private string fileName = "log";
+    private string filePrefix = "log";
+
+    [SerializeField]
+    private string fileExtension = ".csv";
 
     [SerializeField]
     private bool saveLocally = true;
 
     [SerializeField]
+    private bool CreateMetaCollection = true;
+
+    [SerializeField]
     private ConnectToMySQL connectToMySQL;
 
     private string filePath;
-    private string completeFileName = "";
     private char fieldSeperator = ',';
-    private string uid = "";
-    private int logCount = 0;
-    private int gamelogCount = 0;
-    private string email = "anonymous";
-    private bool saveHeaders = true;
+    private string playID = "";
+    private string deviceID = "";
+    public string filestamp;
 
     // Start is called before the first frame update
     void Awake()
     {
-        initLog();
-        statelogs.Add("PlayID", "-1");
-        statelogs.Add("DeviceID", "-1");
-        statelogs.Add("NumberOfHealthy", "-1");
-        statelogs.Add("NumberOfIsolated", "-1");
-        statelogs.Add("NumberOfInfected", "-1");
-        statelogs.Add("NumberOfTested", "-1");
-        statelogs.Add("GameState", "-1");
-        statelogs.Add("SubjectsOnStart", "-1");
-        statelogs.Add("InfectedOnStart", "-1");
-        statelogs.Add("GameOverScore", "-1");
-        statelogs.Add("GameWonScore", "-1");
-        statelogs.Add("NewInfectionSeconds", "-1");
-        statelogs.Add("LevelNo", "-1");
-        GenerateUID();
-        InitFile();
-
-        statelogs["PlayID"] = uid;
-        statelogs["DeviceID"] = SystemInfo.deviceUniqueIdentifier;
+        filestamp = GetTimeStamp().Replace('/', '-').Replace(":", "-");
+        if (CreateMetaCollection) {
+            GenerateUIDs();
+            Log("Meta", "PlayID", playID, LogMode.Overwrite);
+            Log("Meta", "DeviceID", deviceID, LogMode.Overwrite);
+        }
     }
 
-    private void initLog() {
-        logs.Add("PlayID", new Dictionary<int, string>());
-        logs.Add("DeviceID", new Dictionary<int, string>());
-        logs.Add("Timestamp", new Dictionary<int, string>());
-        logs.Add("Event", new Dictionary<int, string>());
-        logs.Add("EventType", new Dictionary<int, string>());
-        logs.Add("GameTime", new Dictionary<int, string>());
-        logs.Add("NumberOfHealthy", new Dictionary<int, string>());
-        logs.Add("NumberOfIsolated", new Dictionary<int, string>());
-        logs.Add("NumberOfInfected", new Dictionary<int, string>());
-        logs.Add("NumberOfTested", new Dictionary<int, string>());
-        logs.Add("GameState", new Dictionary<int, string>());
-        logs.Add("SubjectsOnStart", new Dictionary<int, string>());
-        logs.Add("InfectedOnStart", new Dictionary<int, string>());
-        logs.Add("GameOverScore", new Dictionary<int, string>());
-        logs.Add("GameWonScore", new Dictionary<int, string>());
-        logs.Add("NewInfectionSeconds", new Dictionary<int, string>());
+    public void GenerateUIDs() {
+        playID = Md5Sum(System.DateTime.Now.ToString(SystemInfo.deviceUniqueIdentifier + "yyyy:MM:dd:HH:mm:ss.ffff").Replace(" ", "").Replace("/", "").Replace(":", ""));
+        deviceID = SystemInfo.deviceUniqueIdentifier;
     }
 
-    private void InitFile()
-    {
-        completeFileName = fileName + "_" + GetTimeStamp().Replace('/', '-').Replace(":", "-");
-        filePath = savePath + "/" + completeFileName + ".csv";
+    public Dictionary<string, Dictionary<int, object>> GetLog(string collectionLabel) {
+        return new Dictionary<string, Dictionary<int, object>>(collections[collectionLabel].log);
     }
 
-    public void GenerateUID() {
-        uid = Md5Sum(System.DateTime.Now.ToString(SystemInfo.deviceUniqueIdentifier + "yyyy:MM:dd:HH:mm:ss.ffff").Replace(" ", "").Replace("/", "").Replace(":", ""));
+    public void SaveAllLogs() {
+        foreach(KeyValuePair<string, LogCollection> pair in collections) {
+            SaveLog(pair.Value.label);
+        }
     }
 
-    public Dictionary<string, Dictionary<int, object>> GetGameLogs() {
-        return gamelogs;
+    public void SaveLog(string collectionLabel) {
+        if (Application.platform != RuntimePlatform.WebGLPlayer) {
+            SaveToCSV(collectionLabel);
+        }
+        SaveToSQL(collectionLabel);
     }
 
-    // Generates a "logs" row (see class description) from the given datas.
-    public void GenerateLine(Dictionary<string, object> log = null, bool isEvent = false) {
-        logs["Timestamp"].Add(logCount, GetTimeStamp());
-        foreach (KeyValuePair<string, string> pair in statelogs)
-        {
-            if (logs.ContainsKey(pair.Key))
-            {
-                logs[pair.Key].Add(logCount, pair.Value);
+    public void CreateLog(string collectionLabel) {
+        collections.Add(collectionLabel, new LogCollection());
+    }
+
+    public void Log(string collectionLabel, Dictionary<string, object> logData, LogMode logMode=LogMode.Append) {
+        if (!collections.ContainsKey(collectionLabel)) {
+            collections.Add(collectionLabel, new LogCollection());
+            collections[collectionLabel].label = collectionLabel;
+        }
+        foreach(KeyValuePair<string, object> pair in logData) {
+            if (!collections[collectionLabel].log.ContainsKey(pair.Key)) {
+                collections[collectionLabel].log.Add(pair.Key, new Dictionary<int, object>());
+
+                if (!collections[collectionLabel].log.ContainsKey("Timestamp")) {
+                    collections[collectionLabel].log["Timestamp"] = new Dictionary<int, object>();
+                }
+                if (!collections[collectionLabel].log.ContainsKey("PlayID")) {
+                collections[collectionLabel].log["PlayID"] = new Dictionary<int, object>();
+                }
+                if (!collections[collectionLabel].log.ContainsKey("Email")) {
+                collections[collectionLabel].log["Email"] = new Dictionary<int, object>();
+                }
             }
-            else
-            {
-                logs.Add(pair.Key, new Dictionary<int, string>{{logCount, pair.Value}});
+            int count = collections[collectionLabel].count;
+            if (logMode == LogMode.Append) {
+                if (collections[collectionLabel].log[pair.Key].ContainsKey(count)) {
+                    collections[collectionLabel].count++;
+                    count = collections[collectionLabel].count;
+                }
+            }
+
+            collections[collectionLabel].log["Timestamp"][count] = GetTimeStamp();
+            collections[collectionLabel].log["PlayID"][count] = playID;
+            collections[collectionLabel].log["Email"][count] = email;
+            collections[collectionLabel].log[pair.Key][count] = pair.Value;
+        }
+    }
+
+    public void Log(string collectionLabel, string columnLabel, object value, LogMode logMode = LogMode.Append) {
+        if (!collections.ContainsKey(collectionLabel)) {
+            collections.Add(collectionLabel, new LogCollection());
+            collections[collectionLabel].label = collectionLabel;
+        }
+
+        if (!collections[collectionLabel].log.ContainsKey(columnLabel)) {
+            collections[collectionLabel].log.Add(columnLabel, new Dictionary<int, object>());
+
+                if (!collections[collectionLabel].log.ContainsKey("Timestamp")) {
+                    collections[collectionLabel].log["Timestamp"] = new Dictionary<int, object>();
+                }
+                if (!collections[collectionLabel].log.ContainsKey("PlayID")) {
+                collections[collectionLabel].log["PlayID"] = new Dictionary<int, object>();
+                }
+                if (!collections[collectionLabel].log.ContainsKey("Email")) {
+                collections[collectionLabel].log["Email"] = new Dictionary<int, object>();
+                }
+        }
+
+        int count = collections[collectionLabel].count;
+        if (logMode == LogMode.Append) {
+            if (collections[collectionLabel].log[columnLabel].ContainsKey(count)) {
+                collections[collectionLabel].count++;
+                count = collections[collectionLabel].count;
             }
         }
-        if (!isEvent) {
-            logs["Event"].Add(logCount, "Sample");
-            logs["EventType"].Add(logCount, "PlayEvent");
+
+        collections[collectionLabel].log["Timestamp"][count] = GetTimeStamp();
+        collections[collectionLabel].log["PlayID"][count] = playID;
+        collections[collectionLabel].log["Email"][count] = email;
+        collections[collectionLabel].log[columnLabel][count] = value;
+    }
+
+    public void ClearAllLogs() {
+        foreach (KeyValuePair<string, LogCollection> pair in collections) {
+            collections[pair.Key].log.Clear();
+            collections[pair.Key].count = 0;
         }
-        /*if (isEvent) {
-            //logs["Event"].Add(logCount, ConvertToString(log["Event"]));
-            //logs["EventType"].Add(logCount, ConvertToString(log["EventType"]));
-            logs["NumberOfHealthy"].Add(logCount, statelogs["NumberOfHealthy"]);
-            logs["NumberOfIsolated"].Add(logCount, statelogs["NumberOfIsolated"]);
-            logs["NumberOfTested"].Add(logCount, statelogs["NumberOfTested"]);
-            logs["NumberOfInfected"].Add(logCount, statelogs["NumberOfInfected"]);
+    }
+
+    public void ClearLog(string collectionLabel) {
+        if (collections.ContainsKey(collectionLabel)) {
+            collections[collectionLabel].log.Clear();
+            collections[collectionLabel].count = 0;
         } else {
-            logs["Event"].Add(logCount, "Sample");
-            logs["EventType"].Add(logCount, "PlayEvent");
+            Debug.LogError("Collection " + collectionLabel + " does not exist.");
+            return;
         }
-        */
-        /*logs["GameState"].Add(logCount, statelogs["GameState"]);
-        logs["PlayID"].Add(logCount, statelogs["PlayID"]);
-        logs["DeviceID"].Add(logCount, statelogs["DeviceID"]);
-        logs["SubjectsOnStart"].Add(logCount, statelogs["SubjectsOnStart"]);
-        logs["InfectedOnStart"].Add(logCount, statelogs["InfectedOnStart"]);
-        logs["GameOverScore"].Add(logCount, statelogs["GameOverScore"]);
-        logs["GameWonScore"].Add(logCount, statelogs["GameWonScore"]);
-        logs["NewInfectionSeconds"].Add(logCount, statelogs["NewInfectionSeconds"]);
-        */
-
-        if (log != null) {
-            foreach (KeyValuePair<string, object> pair in log)
-            {
-                if (logs.ContainsKey(pair.Key))
-                {
-                    if (logs[pair.Key].ContainsKey(logCount)) {
-                        logs[pair.Key][logCount] = ConvertToString(pair.Value);
-                    } else {
-                        logs[pair.Key].Add(logCount, ConvertToString(pair.Value));
-                    }
-                    
-                }
-                else
-                {
-                    logs.Add(pair.Key, new Dictionary<int, string>{{logCount, ConvertToString(pair.Value)}});
-                }
-            }
-        }
-        logCount++;
-    }
-
-    public void SaveLogs() {
-        //SaveCsvLogs();
-        SaveSqlLogs();
-    }
-
-    public void ClearLogs() {
-        logs.Clear();
-        logCount = 0;
-        initLog();
-    }
-
-    public void ClearGameLogs() {
-        gamelogs.Clear();
-        gamelogCount = 0;
-    }
-
-    public void AddToEventLog(Dictionary<string, object> log) {
-        GenerateLine(log, true);
-    }
-
-    public void UpdateStateLog(Dictionary<string, object> log) {
-        foreach (KeyValuePair<string, object> pair in log)
-        {
-            if (statelogs.ContainsKey(pair.Key)) {
-                statelogs[pair.Key] = ConvertToString(pair.Value);
-            } else
-            {
-                statelogs.Add(pair.Key, ConvertToString(pair.Value));
-            }
-        }      
-    }
-
-    public void AddToGameLog(Dictionary<string, object> log) {
-        foreach (KeyValuePair<string, object> pair in log)
-        {
-            if (gamelogs.ContainsKey(pair.Key))
-            {
-                gamelogs[pair.Key].Add(gamelogCount, pair.Value);
-            }
-            else
-            {
-                gamelogs.Add(pair.Key, new Dictionary<int, object>{{gamelogCount, pair.Value}});
-            }
-        }
-        //UpdateStateLog(log);
-        GenerateLine(log);
-        gamelogCount++;
     }
 
     // Formats the logs to a CSV row format and saves them. Calls the CSV headers generation beforehand.
     // If a parameter doesn't have a value for a given row, uses the given value given previously (see 
     // UpdateHeadersAndDefaults).
-    private void SaveCsvLogs()
+    private void SaveToCSV(string label)
     {
         if(!saveLocally) return;
-        if (saveHeaders) {
-            GenerateHeaders();
-            saveHeaders = false;
+        
+        if (collections[label].saveHeaders) {
+            GenerateHeaders(collections[label]);
+            collections[label].saveHeaders = false;
         }
-        string temp;
-        for (int i = 0; i < logCount; i++)
+        object temp;
+        for (int i = 0; i <= collections[label].count; i++)
         {
             string line = "";
-            foreach (KeyValuePair<string, Dictionary<int, string>> log in logs)
+            foreach (KeyValuePair<string, Dictionary<int, object>> log in collections[label].log)
             {
                 if (line != "")
                 {
                     line += fieldSeperator;
                 }
-
+                
                 if (log.Value.TryGetValue(i, out temp))
                 {
-                    line += temp;
+                    line += ConvertToString(temp);
                 }
                 else
                 {
-                    if(statelogs.TryGetValue(log.Key, out temp))
-                    {
-                        line += temp;
-                    }
-                    else
-                    {
-                        line += "NULL";
-                    }
+                    line += "NULL";
                 }
             }
-            SaveToFile(line);
+            SaveToFile(collections[label].label, line);
         }
     }
 
 
     // Generates the headers in a CSV format and saves them to the CSV file
-    private void GenerateHeaders()
+    private void GenerateHeaders(LogCollection collection)
     {
         string headers = "";
-        foreach (string key in logs.Keys)
+        foreach (string key in collection.log.Keys)
         {
             if (headers != "")
             {
@@ -261,14 +228,14 @@ public class EventLogger : MonoBehaviour
             }
             headers += key;
         }
-        SaveToFile(headers);
+        SaveToFile(collection.label, headers);
     }
 
     // Saves the given CSV line to the CSV file.
-    private void SaveToFile(string line, bool end = true)
+    private void SaveToFile(string filename, string line, bool end = true)
     {
         string tempLine = line;
-
+        filePath = savePath + "/" + filePrefix + filestamp + filename + ".csv";
         if (end)
         {
             tempLine += Environment.NewLine;
@@ -276,45 +243,19 @@ public class EventLogger : MonoBehaviour
         File.AppendAllText(filePath, tempLine);
     }
 
-    private void SaveSqlLogs()
+    private void SaveToSQL(string label)
     {
-        Dictionary<string, List<string>> logCollection = new Dictionary<string, List<string>>();
-        logCollection.Add("Email", new List<string>());
-        for(int i = 0; i < logCount; i++)
-        {
-            logCollection["Email"].Add(email);
+        if (!collections.ContainsKey(label)) {
+            Debug.LogError("Could not find collection " + label + ". Aborting.");
+            return;
         }
-        string temp;
 
-        foreach(KeyValuePair<string, Dictionary<int, string>> pair in logs)
-        {
-            logCollection.Add(pair.Key, new List<string>());
-            
-            for(int i = 0; i < logCount; i++)
-            {
-                if (pair.Value.TryGetValue(i, out temp))
-                {
-                    logCollection[pair.Key].Add(temp);
-                }
-                else
-                {
-                    if(statelogs.TryGetValue(pair.Key, out temp))
-                    {
-                        logCollection[pair.Key].Add(temp);
-                    }
-                    else
-                    {
-                        logCollection[pair.Key].Add("NULL");
-                    }
-                }
-            }
+        if (collections[label].log.Keys.Count == 0) {
+            Debug.LogError("Collection " + label + " is empty. Aborting.");
+            return;
         }
-        SendSqlLogs(logCollection);
-    }
-
-    private void SendSqlLogs(Dictionary<string, List<string>> logCollection)
-    {
-        connectToMySQL.AddToUploadQueue(logCollection);
+        
+        connectToMySQL.AddToUploadQueue(collections[label].log, collections[label].label);    
         connectToMySQL.UploadNow();
     }
 
@@ -345,8 +286,11 @@ public class EventLogger : MonoBehaviour
         if (arg is float)
         {
             return ((float)arg).ToString("0.0000").Replace(",", ".");
-        }
-        else if (arg is Vector3)
+        } else if (arg is int) {
+            return arg.ToString();
+        } else if (arg is bool) {
+            return ((bool)arg) ? "TRUE" : "FALSE";
+        } else if (arg is Vector3)
         {
             return ((Vector3)arg).ToString("0.0000").Replace(",", ".");
         }

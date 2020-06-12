@@ -73,7 +73,7 @@ public class SpreadPanel : MonoBehaviour
 
     public void OnGameOver(GameStats gameStats, GameState gameState) {
         stats = gameStats;
-        gameLogs = eventLog.GetGameLogs();
+        gameLogs = eventLog.GetLog("Sample");
         logCount = (gameLogs["GameTime"].Keys.Count-1);
     }
 
@@ -83,7 +83,7 @@ public class SpreadPanel : MonoBehaviour
             {"Event", "ViewingStatistics"},
             {"EventType", "StatsEvent"},
         };
-        eventLog.AddToEventLog(newEvent);
+        eventLog.Log("Event", newEvent);
         Vector2 annotationPos;
         CurveCanvasSettings settings = new CurveCanvasSettings();
         settings.xMin = 0f;
