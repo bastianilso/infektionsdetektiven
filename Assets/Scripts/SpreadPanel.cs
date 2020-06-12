@@ -8,7 +8,7 @@ public class SpreadPanel : MonoBehaviour
 
     private GameStats stats;
 
-    private EventLogger eventLog;
+    private LoggingManager eventLog;
 
     [SerializeField]
     private GameObject spreadUI;
@@ -68,7 +68,7 @@ public class SpreadPanel : MonoBehaviour
         spreadTextTemplate = spreadText.text;
         isolationEffectiveTemplate = isolationEffectiveText.text;
         timeAnnotationTextTemplate = timeAnnotationText.text;
-        eventLog = GameObject.Find("Logging").GetComponent<EventLogger>();
+        eventLog = GameObject.Find("Logging").GetComponent<LoggingManager>();
     }
 
     public void OnGameOver(GameStats gameStats, GameState gameState) {

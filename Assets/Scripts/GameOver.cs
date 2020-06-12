@@ -58,7 +58,7 @@ public class GameOver : MonoBehaviour
     private GameObject RetryButton;
 
     [SerializeField]
-    private EventLogger eventLogger;
+    private LoggingManager eventLogger;
 
     // Start is called before the first frame update
     void Awake()
@@ -67,7 +67,7 @@ public class GameOver : MonoBehaviour
         numberOfSubjectsInfectedTemplate = numberOfSubjectsInfected.text;
         numberOfSubjectsInIsolationTemplate = numberOfSubjectsInIsolation.text;
         numberOfSubjectsVacTemplate = numberOfSubjectsVac.text;
-        eventLogger = GameObject.Find("Logging").GetComponent<EventLogger>();
+        eventLogger = GameObject.Find("Logging").GetComponent<LoggingManager>();
     }
 
     // Update is called once per frame

@@ -32,12 +32,12 @@ public class HeartRater : MonoBehaviour
 
     private int currentRating = -1;
 
-    private EventLogger eventLogger;
+    private LoggingManager eventLogger;
 
     // Start is called before the first frame update
     void Start()
     {
-        eventLogger = GameObject.Find("Logging").GetComponent<EventLogger>();
+        eventLogger = GameObject.Find("Logging").GetComponent<LoggingManager>();
     }
 
     // Update is called once per frame

@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private DangerImage dangerImage;
-    private EventLogger eventLogger;
+    private LoggingManager eventLogger;
 
     private Dictionary<string, object> gameLog = new Dictionary<string, object>();
 
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     {
         populationManager = this.GetComponent<PopulationManager>();
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        eventLogger = GameObject.Find("Logging").GetComponent<EventLogger>();
+        eventLogger = GameObject.Find("Logging").GetComponent<LoggingManager>();
         currentLevel = levelManager.GetCurrentLevelSettings();
         PrepareGame();
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
