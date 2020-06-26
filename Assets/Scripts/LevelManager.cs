@@ -30,6 +30,9 @@ public class LevelManager : MonoBehaviour
         }
         levelDict = new Dictionary<int, GameSettings>();   
         GenerateLevels();
+
+        currentLevel = PlayerPrefs.GetInt("Player:CurrentLevel", 1);
+        PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
     }
 
     private void GenerateLevels() {
@@ -55,7 +58,7 @@ public class LevelManager : MonoBehaviour
             levelNo = 3,
             gameOverScore = 15,
             gameWonScore = 28f,
-            daysToWin = 20,
+            daysToWin = 25,
             numberOfSubjects = 40,
             newInfectionSeconds = 4f,
             numberOfInfectedOnStart = 1,
@@ -63,10 +66,10 @@ public class LevelManager : MonoBehaviour
         levelDict[4] = new GameSettings() {
             levelNo = 4,
             gameOverScore = 15,
-            gameWonScore = 10f,
+            gameWonScore = 28f,
             daysToWin = 25,
-            numberOfSubjects = 50,
-            newInfectionSeconds = 2f,
+            numberOfSubjects = 80,
+            newInfectionSeconds = 4f,
             numberOfInfectedOnStart = 1,
         };
         levelDict[5] = new GameSettings() {
@@ -75,7 +78,7 @@ public class LevelManager : MonoBehaviour
             gameWonScore = 42f,
             daysToWin = 30,
             numberOfSubjects = 80,
-            newInfectionSeconds = 5f,
+            newInfectionSeconds = 3f,
             numberOfInfectedOnStart = 1
         };
         levelDict[6] = new GameSettings() {
@@ -109,10 +112,12 @@ public class LevelManager : MonoBehaviour
 
     public void SetLevel(int lvl) {
         currentLevel = lvl;
+        PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
     }
 
     public void IncrementLevel() {
         currentLevel++;
+        PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
     }
 
     public GameSettings GetCurrentLevelSettings() {
