@@ -31,8 +31,8 @@ public class LevelManager : MonoBehaviour
         levelDict = new Dictionary<int, GameSettings>();   
         GenerateLevels();
 
-        currentLevel = PlayerPrefs.GetInt("Player:CurrentLevel", 1);
-        PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
+        //currentLevel = PlayerPrefs.GetInt("Player:CurrentLevel", 1);
+        //PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
     }
 
     private void GenerateLevels() {
