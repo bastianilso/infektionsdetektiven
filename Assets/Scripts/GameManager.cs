@@ -174,6 +174,7 @@ public class GameManager : MonoBehaviour
                 //Debug.Log("Gametime: " + gameTime.ToString());
                 if (populationScore < currentLevel.gameOverScore) {
                         gameState = GameState.GameLost;
+                        onGameOver.Invoke(GetGameStats(), gameState);
                         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
                             {"EventType", "GameEvent"},
@@ -183,7 +184,6 @@ public class GameManager : MonoBehaviour
                         eventLogger.SaveLog("Sample");
                         eventLogger.ClearLog("Event");
                         eventLogger.ClearLog("Sample");
-                        onGameOver.Invoke(GetGameStats(), gameState);
                 }
                 bool didWin = gameTime > currentLevel.gameWonScore;
                 //Debug.Log("gameTime: " + gameTime + " gameWonScore: " + gameWonScore + "won: " + didWin );
