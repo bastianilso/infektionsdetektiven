@@ -148,7 +148,7 @@ public class SpreadPanel : MonoBehaviour
         Debug.Log("numIsolated: " + numIsolated + ", numInfected: " + numInfected + ", isolationEff: " + isolationEffective + ", logCount: " + logCount + ", timeVal: " + timeVal);
         isolationEffectiveText.text = string.Format(isolationEffectiveTemplate, isolationEffective.ToString("F0"));
         if (numIsolated == 0) {
-            isolationEffectiveText.text = "Du isolerede endnu ikke nogen syge.";
+            isolationEffectiveText.text = "You did not isolate any sick.";
         } 
 
         timeAnnotationText.text = string.Format(timeAnnotationTextTemplate, chosenDay.ToString());

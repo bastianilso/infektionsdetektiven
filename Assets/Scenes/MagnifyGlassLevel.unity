@@ -268,7 +268,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Infektionen spredte sig til <b>{0} mennesker</b>.
+  m_Text: The infection spread to <b>{0} people</b>.
 --- !u!222 &27711055
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -962,7 +962,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "N\xC6STE NIVEAU"
+  m_Text: NEXT LEVEL
 --- !u!222 &109817033
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1115,7 +1115,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal tests
+  m_Text: Test Count
 --- !u!222 &122838318
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1281,7 +1281,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INFEKTIONEN
+  m_Text: INFECTION
 --- !u!222 &131657968
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1700,9 +1700,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SUNDE
+  m_Text: 'HEALTHY
 
-    MENNESKER'
+    POPULATION'
 --- !u!222 &195849416
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1956,7 +1956,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PR\xD8V IGEN"
+  m_Text: TRY AGAIN
 --- !u!222 &232157485
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2224,7 +2224,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{0} MENNESKER'
+  m_Text: '{0} PEOPLE'
 --- !u!222 &249782824
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4492,7 +4492,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "EPIDEMI GR\xC6NSE"
+  m_Text: EPIDEMIC LIMIT
 --- !u!222 &326715998
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4539,7 +4539,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -362.75165}
+  m_AnchoredPosition: {x: 512, y: -362.41815}
   m_SizeDelta: {x: 801.9518, y: 159.99252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &337969675
@@ -5052,7 +5052,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SMITTESPREDNING
+  m_Text: DISEASE SPREAD
 --- !u!222 &390344258
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5633,7 +5633,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{0} DAGE'
+  m_Text: '{0} DAYS'
 --- !u!222 &447414884
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5880,7 +5880,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Her er '
+  m_Text: 'Here is '
 --- !u!222 &467580893
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5958,7 +5958,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ISOLEREDE
+  m_Text: ISOLATED
 --- !u!222 &481477728
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6212,7 +6212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Desv\xE6rre n\xE5ede infektionen at smitte mere end 80% af landet."
+  m_Text: Unfortunately the infection spread to more than 80% of society.
 --- !u!222 &482242753
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7088,7 +7088,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Mennesker
+  m_Text: Population Count
 --- !u!222 &517893919
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7440,7 +7440,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Vaccinen er fundet!
+  m_Text: The vaccine is here!
 --- !u!222 &555940122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7627,7 +7627,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Du var <b>{0} % effektiv</b> til at isolere de smittede.
+  m_Text: You were <b>{0} % effective</b> to isolate the sick.
 --- !u!1 &585929664
 GameObject:
   m_ObjectHideFlags: 0
@@ -7918,7 +7918,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hvad syntes du om spillet?
+  m_Text: What do you think of the game?
 --- !u!222 &624506883
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8703,7 +8703,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hold infektionen tilbage i {0} dage.
+  m_Text: Keep infection back for {0} days.
 --- !u!222 &683079091
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8937,7 +8937,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Isolerede
+  m_Text: Isolation Count
 --- !u!222 &692771478
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9335,7 +9335,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: FAKTA
+  m_Text: FACTS
 --- !u!222 &730188614
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9413,7 +9413,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "<b>{0} mennesker</b> n\xE5ede at f\xE5 vaccinen."
+  m_Text: <b>{0} people</b> received the vaccine.
 --- !u!222 &733575316
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9634,7 +9634,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "N\xC6STE NIVEAU"
+  m_Text: NEXT LEVEL
 --- !u!222 &757467992
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10443,7 +10443,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DAG {0}
+  m_Text: DAY {0}
 --- !u!114 &803319386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12145,7 +12145,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VIDERE
+  m_Text: NEXT
 --- !u!222 &1007050018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12369,7 +12369,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: kl {0}
+  m_Text: '{0}'
 --- !u!222 &1033806360
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12525,7 +12525,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PR\xD8V IGEN"
+  m_Text: TRY AGAIN
 --- !u!222 &1045400098
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12722,7 +12722,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: OVERSIGT
+  m_Text: OVERVIEW
 --- !u!222 &1061072692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12873,7 +12873,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Inficerede
+  m_Text: Infection Count
 --- !u!222 &1092682513
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14205,7 +14205,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Statistik
+  m_Text: Statistic
 --- !u!222 &1202724574
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14668,7 +14668,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VIDERE
+  m_Text: NEXT
 --- !u!222 &1253445499
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14817,7 +14817,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Mennesker
+  m_Text: Population Count
 --- !u!222 &1270108746
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15592,7 +15592,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "SYGE I\nKARANT\xC6NE"
+  m_Text: 'DISEASED IN
+
+    ISOLATION'
 --- !u!222 &1303145391
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16012,7 +16014,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "P\xE5 dag {0} var infektionen spredt til <b>{1} mennesker</b>."
+  m_Text: On day {0} the infection was spread to <b>{1} people</b>.
 --- !u!222 &1352330233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16611,7 +16613,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Niveau {0}
+  m_Text: Level {0}
 --- !u!222 &1442795570
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16689,9 +16691,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SUNDE
+  m_Text: 'HEALTHY
 
-    MENNESKER'
+    POPULATION'
 --- !u!222 &1447676893
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16769,7 +16771,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Statistik
+  m_Text: Statistic
 --- !u!222 &1458387096
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18533,7 +18535,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Infektionen ude af kontrol..
+  m_Text: Infection out of control..
 --- !u!222 &1495482139
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18798,7 +18800,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Nyt Test Resultat:'
+  m_Text: 'New Test Result:'
 --- !u!222 &1523838356
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19713,7 +19715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "PR\xD8V IGEN"
+  m_Text: TRY AGAIN
 --- !u!222 &1616999437
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19758,7 +19760,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -182.933}
+  m_AnchoredPosition: {x: 512, y: -182.5995}
   m_SizeDelta: {x: 701.1792, y: 122.184814}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1618361751
@@ -20031,7 +20033,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Statistik
+  m_Text: Statistic
 --- !u!222 &1630552779
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20256,7 +20258,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Du holdte infektionen i skak tids nok til at forskerne kunne finde en vaccine.
+  m_Text: You kept the infection at bay in time to let researchers find a vaccine.
 --- !u!222 &1664042062
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20489,7 +20491,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Isolerede
+  m_Text: Isolation Count
 --- !u!222 &1702703576
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20830,7 +20832,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal tests
+  m_Text: Test Count
 --- !u!222 &1774307617
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22022,7 +22024,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "SYGE I\nKARANT\xC6NE"
+  m_Text: 'DISEASED IN
+
+    ISOLATION'
 --- !u!222 &1875173206
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22248,7 +22252,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: STATISTIK
+  m_Text: STATISTIC
 --- !u!222 &1985452245
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22750,7 +22754,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Du isolerede i alt <b>{0} mennesker</b>.
+  m_Text: You isolated in total <b>{0} people</b>.
 --- !u!222 &2028775526
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22901,7 +22905,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: JEG ER KLAR
+  m_Text: I AM READY
 --- !u!222 &2053382686
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23680,7 +23684,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 512, y: -507.92523}
+  m_AnchoredPosition: {x: 512, y: -507.59174}
   m_SizeDelta: {x: 821.6432, y: 52.89456}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103738195
@@ -23814,7 +23818,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INFICERING OM..
+  m_Text: INFECTION IN..
 --- !u!222 &2106746990
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -23973,7 +23977,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: INFEKTIONSKURVE
+  m_Text: INFECTION CURVE
 --- !u!222 &2112785428
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -24151,7 +24155,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Antal Inficerede
+  m_Text: No. of Infected
 --- !u!222 &2131457571
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -84,13 +84,13 @@ public class CurrentFind : MonoBehaviour
         SusceptibleAvatar.SetActive(true);
         InfectedAvatar.SetActive(false);
         SusceptibleManager.Walk();
-        currentFindText.text = "SUND OG RASK";
+        currentFindText.text = "HEALTHY";
     }
 
     void ShowInfectedAvatar() {
         InfectedAvatar.SetActive(true);
         SusceptibleAvatar.SetActive(false);
         InfectedManager.Walk();
-        currentFindText.text = "INFICERET";
+        currentFindText.text = "INFECTED";
     }
 }
