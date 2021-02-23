@@ -869,7 +869,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Find og isoler de inficerede i populationen inden infektionen spreder sig.
+  m_Text: Find and isolate the diseased in the population before the disease spreads.
 --- !u!222 &123414536
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1111,9 +1111,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'SUNDE
+  m_Text: 'HEALTHY
 
-    MENNESKER'
+    POPULATION'
 --- !u!222 &195849416
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4061,7 +4061,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: TILBAGE
+  m_Text: BACK
 --- !u!222 &501379814
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4210,7 +4210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Brug forst\xF8rrelsesglasset til at finde inficerede mennesker."
+  m_Text: Use the magnifying glass to find the infected people.
 --- !u!222 &534250003
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4993,7 +4993,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Spillets Musik:'
+  m_Text: 'Game Music:'
 --- !u!222 &661810515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5071,10 +5071,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Udviklet af Institut for Design, Arktiektur og Mediteknologi hos Aalborg
-    Universitet som en del af  COVID-19-CTRL GROUP. Spillet er udarbejdet til folkeskolen,
-    som en del af disseminering og undervisning. Udviklingen af spillet er st\xF8ttet
-    af Novo Nordisk Fonden. Spillet kan gratis benyttes til ikke-kommercielt brug."
+  m_Text: Developed by the institute for Design, Architecture and Media Technology
+    at Aalborg University as part of the COVID-19-CTRL GROUP. The game is developed
+    for the primary education as part of dissemination and education. The development
+    has been supported by Novo Nordisk Fonden. The game is free to use for non-commercial
+    purposes.
 --- !u!222 &667189413
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5152,7 +5153,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Find og isoler de inficerede i populationen inden infektionen spreder sig.
+  m_Text: Find and isolate the infected before the infection spreads.
 --- !u!222 &670447881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5626,7 +5627,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "V\xE6lg Niveau"
+  m_Text: Choose Level
 --- !u!222 &832620991
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5806,6 +5807,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9147833729805576380, guid: a76d0431956868849b66fe031112c8c7,
+        type: 3}
+      propertyPath: m_Text
+      value: ISOLATED
       objectReference: {fileID: 0}
     - target: {fileID: 9147833729805576381, guid: a76d0431956868849b66fe031112c8c7,
         type: 3}
@@ -7017,7 +7023,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Instruktioner
+  m_Text: Instructions
 --- !u!222 &1099503925
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7166,8 +7172,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Brug musen til at finde de syge. Klik p\xE5 de syge for at sende dem i
-    ambulancen."
+  m_Text: Use the mouse to find the diseased. Isolate the diseased with mouse click.
 --- !u!222 &1136176849
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8221,7 +8226,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Lydeffekter
+  m_Text: Soundeffects
 --- !u!222 &1381271402
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10155,8 +10160,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: En infektion spreder sig i Danmark. Kan du finde og isolere de syge indtil
-    vaccinen er fundet?
+  m_Text: An infection is spreading. Can you find and isolate the diseased until
+    the vaccine is found?
 --- !u!222 &1507606714
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10246,7 +10251,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Nyt Test Resultat:'
+  m_Text: 'New Test Result:  '
 --- !u!222 &1523838356
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11178,7 +11183,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Infektionsdetektiven
+  m_Text: Infection Detective
 --- !u!222 &1686346830
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11451,7 +11456,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Antal F\xF8rste Inficerede:"
+  m_Text: 'No. of Initial infected:'
 --- !u!222 &1745401438
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11530,7 +11535,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Menu Musik:'
+  m_Text: 'Menu Music:'
 --- !u!222 &1832060485
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11704,7 +11709,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "SYGE I\nKARANT\xC6NE"
+  m_Text: 'INFECTED IN
+
+    ISOLATION'
 --- !u!222 &1875173206
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12668,6 +12675,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -52.85
       objectReference: {fileID: 0}
+    - target: {fileID: 3967168417393879989, guid: 1e1b67362013c5443921d01512129d6b,
+        type: 3}
+      propertyPath: m_Text
+      value: Anonymous Data Collection
+      objectReference: {fileID: 0}
     - target: {fileID: 3967168417551907922, guid: 1e1b67362013c5443921d01512129d6b,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -12707,6 +12719,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -37.644623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967168417821476727, guid: 1e1b67362013c5443921d01512129d6b,
+        type: 3}
+      propertyPath: m_Text
+      value: Aalborg Universitet investigates how well players do in Infection Detective.
+        By playing the game you support Danish research. We collect anonymous data
+        which we use for analysis and publication.
       objectReference: {fileID: 0}
     - target: {fileID: 3967168418014057238, guid: 1e1b67362013c5443921d01512129d6b,
         type: 3}
@@ -12867,6 +12886,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -272.00494
+      objectReference: {fileID: 0}
+    - target: {fileID: 3967168418475620020, guid: 1e1b67362013c5443921d01512129d6b,
+        type: 3}
+      propertyPath: m_Text
+      value: OKAY
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e1b67362013c5443921d01512129d6b, type: 3}
