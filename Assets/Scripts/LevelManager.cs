@@ -15,9 +15,11 @@ public class GameSettings {
 
 public class LevelManager : MonoBehaviour
 {
-    
+    private LoggingManager eventLogger;
+
     private static LevelManager instance;
     public int currentLevel = 1;
+    private int levelPlayID = 0;
     private Dictionary<int, GameSettings> levelDict;
 
     // Start is called before the first frame update
@@ -30,9 +32,18 @@ public class LevelManager : MonoBehaviour
         }
         levelDict = new Dictionary<int, GameSettings>();   
         GenerateLevels();
-
         //currentLevel = PlayerPrefs.GetInt("Player:CurrentLevel", 1);
         //PlayerPrefs.SetInt("Player:CurrentLevel", currentLevel);
+    }
+
+    void Start()
+    {
+        eventLogger = GameObject.Find("Logging").GetComponent<LoggingManager>();
+        Dictionary<string, object> metaLog = new Dictionary<string, object>() {
+            {"GameVersion", Application.version}
+        };
+        eventLogger.Log("Meta", metaLog, LogMode.Overwrite);
+        eventLogger.SaveLog("Meta");
     }
 
     private void GenerateLevels() {
@@ -124,7 +135,12 @@ public class LevelManager : MonoBehaviour
         return levelDict[currentLevel];
     }
 
+    public int GetLevelPlayID() {
+        return levelPlayID;
+    }
+
     public void LoadNextLevel() {
+        levelPlayID++;
         SceneManager.LoadScene("MagnifyGlassLevel");
     }
 
