@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
     private float countDownTimer = 0f;
     public float samplingFrequency = 1f;
     private int prevTime;
+    private int levelPlayID = -1;
 
     private LevelManager levelManager;
     private GameSettings currentLevel;
@@ -98,19 +99,14 @@ public class GameManager : MonoBehaviour
         levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         eventLogger = GameObject.Find("Logging").GetComponent<LoggingManager>();
         currentLevel = levelManager.GetCurrentLevelSettings();
+        levelPlayID = levelManager.GetLevelPlayID();
         PrepareGame();
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", "GameInit"},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
-
-        Dictionary<string, object> metaLog = new Dictionary<string, object>() {
-            {"SamplingRate", samplingFrequency},
-            {"GameVersion", Application.version}
-        };
-        eventLogger.Log("Meta", metaLog, LogMode.Overwrite);
-        eventLogger.SaveLog("Meta");
     }
 
     // Update is called once per frame
@@ -129,12 +125,14 @@ public class GameManager : MonoBehaviour
                 Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                     {"Event", "Game" + System.Enum.GetName(typeof(GameState), gameState)},
                     {"EventType", "GameEvent"},
+                    {"LevelPlayID", levelPlayID},
                 };
                 eventLogger.Log("Event", eventLog);
             } else if ((int) countDownTimer != prevTime) {
                 Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                     {"Event", "Countdown" + ((int)countDownTimer-1).ToString()},
                     {"EventType", "GameEvent"},
+                    {"LevelPlayID", levelPlayID},
                 };
                 eventLogger.Log("Event", eventLog);
                 onGameCountDown.Invoke((int) countDownTimer);
@@ -149,6 +147,7 @@ public class GameManager : MonoBehaviour
                 Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                     {"Event", "AddNewInfected"},
                     {"EventType", "SubjectEvent"},
+                    {"LevelPlayID", levelPlayID},
                 };
                 eventLogger.Log("Event", eventLog);
             }
@@ -158,6 +157,7 @@ public class GameManager : MonoBehaviour
                 Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                     {"Event", "OutOfInfected"},
                     {"EventType", "SubjectEvent"},
+                    {"LevelPlayID", levelPlayID},
                 };
                 eventLogger.Log("Event", eventLog);
                 populationManager.StartInfection(1);
@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour
                 eventLog = new Dictionary<string, object>() {
                     {"Event", "AddNewInfected"},
                     {"EventType", "SubjectEvent"},
+                    {"LevelPlayID", levelPlayID},
                 };
                 eventLogger.Log("Event", eventLog);
             }
@@ -178,6 +179,7 @@ public class GameManager : MonoBehaviour
                         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
                             {"EventType", "GameEvent"},
+                            {"LevelPlayID", levelPlayID},
                         };
                         eventLogger.Log("Event", eventLog);
                         eventLogger.SaveLog("Event");
@@ -194,6 +196,7 @@ public class GameManager : MonoBehaviour
                         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
                             {"EventType", "GameEvent"},
+                            {"LevelPlayID", levelPlayID},
                         };
                         eventLogger.Log("Event", eventLog);
                         eventLogger.SaveLog("Event");
@@ -226,6 +229,7 @@ public class GameManager : MonoBehaviour
             {"GameWonScore", currentLevel.gameWonScore},
             {"NewInfectionSeconds", currentLevel.newInfectionSeconds},
             {"LevelNo", currentLevel.levelNo},
+            {"LevelPlayID", levelPlayID},
             {"GameResolutionX", Screen.width},
             {"GameResolutionY", Screen.height}
         };
@@ -261,6 +265,7 @@ public class GameManager : MonoBehaviour
             Dictionary<string, object> eventLog = new Dictionary<string, object>() {
                 {"Event", "SpreadAlarm"},
                 {"EventType", "GameEvent"},
+                {"LevelPlayID", levelPlayID},
             };
             eventLogger.Log("Event", eventLog);
         }
@@ -276,6 +281,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID}
         };
         eventLogger.Log("Event", eventLog);
         onGameStateChanged.Invoke(gameTime, gameState);
@@ -293,6 +299,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
     }
@@ -303,6 +310,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", System.Enum.GetName(typeof(GameState), gameState)},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
         eventLogger.SaveAllLogs();
@@ -316,6 +324,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", "NextLevel"},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
         eventLogger.SaveLog("Event");
@@ -329,6 +338,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", "ReloadingLevel"},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
         eventLogger.SaveLog("Event");
@@ -345,6 +355,7 @@ public class GameManager : MonoBehaviour
         Dictionary<string, object> eventLog = new Dictionary<string, object>() {
             {"Event", "ShowingSummary"},
             {"EventType", "GameEvent"},
+            {"LevelPlayID", levelPlayID},
         };
         eventLogger.Log("Event", eventLog);
     }
